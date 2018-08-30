@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="./index.css">
+  <link rel="stylesheet" type="text/css" href="./popup.css">
+  <link rel="stylesheet" type="text/css" href="./float-grid.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato|Courgette" rel="stylesheet">
+  <title>My Trip Application</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous">
+    </script>
+  <script src="bundle.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8&callback=initMap">
+  </script>
+</head>
+
+<body>
+  <main role="main" aria-live="assertive">
+
+    <div class="box-parent">
+
+      <div class="navbar">
+        <div class="logo">
+          <h2>Logo</h2>
+        </div>
+        <div class="welcome_message">
+          <h2>Welcome message</h2>
+        </div>
+        <div class="auth">
+          <h2>Authentication</h2>
+        </div>
+      </div>
+
+      <div class="info">
+        <h3>My list of trips</h3>
+        <div class="add_trip">
+          <button type="button" id="addtrip">Add trip</button>
+        </div>
+      </div>
+
+      <div id="map">
+      </div>
+
+    </div>
+
+
+    <div class="popup-overlay">
+      <div class="popup-content">
+        <form id="js-add-trip-form">
+          <label for="js-add-trip-form"><span> <h2>Info about trip</h2> </span></label>
+          <div class="trip-form-title">
+            <h3>Title of trip</h3>
+            <input type="text" name="js-add-trip-form-name" id="js-title-new-name" placeholder="Trip name"><br>
+            <input type="text" name="js-add-trip-form-location" id="js-new-title-location" placeholder="Trip location"><br>
+            <input type="text" name="js-add-trip-form-dates" id="js-new-title-dates" placeholder="Trip dates"><br>
+          </div>
+
+          <!--<div class="trip-form-places">
+            <h3>Enter the places you have visited</h3>
+            <input type="text" name="js-add-trip-form-places" id="js-places-new-name1" placeholder="Place location 1"><br>
+            <input type="text" name="js-add-trip-form-places" id="js-places-new-name2" placeholder="Place location 2"><br>
+            <input type="text" name="js-add-trip-form-places" id="js-places-new-name3" placeholder="Place location 3"><br>
+          </div> -->
+
+          <div class="trip-form-content">
+            <h3>Additional info about trip</h3>
+            <textarea style="width: 400px; height: 100px;" name="content" form="js-add-trip-form">Enter content here...</textarea><br>
+          </div>
+          <br>
+          <button type="submit" id="submittrip">Save trip</button>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+
+</html>

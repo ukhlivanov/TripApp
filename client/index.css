@@ -1,0 +1,78 @@
+body * {
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
+}
+
+.box-parent {
+  box-sizing: border-box;
+}
+
+.navbar {
+  box-sizing: border-box;
+  border: 3px solid #ccc;
+  margin-bottom: 5px;
+  background-color: yellow;
+}
+
+.navbar::after {
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;
+}
+
+#map {
+  border: 3px solid #ccc;
+  margin-left: 8px;
+  float: left;
+  width: 49.5%;
+  box-sizing: border-box;
+  height: 490px;
+  background-color: lightgreen;
+}
+
+.info {
+  border: 3px solid #ccc;
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  width: 49.5%;
+  height: 490px;
+  background-color: lightgreen;
+  position: relative
+}
+
+.add_trip {
+  width: 100px;
+  height: 30px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.navbar .logo {
+  margin: 5px 10px 5px 7px;
+  background-color: lightgreen;
+  float: left;
+  padding: 0px;
+  float: left;
+  width: 33%;
+  text-align: center;
+}
+
+.navbar .welcome_message {
+  margin: 5px 10px 5px 0px;
+  float: left;
+  text-align: center;
+  width: 33%;
+  background-color: lightgreen;
+}
+
+.auth {
+  margin: 5px 10px 5px 0px;
+  float: left;
+  width: 31%;
+  margin-right: 0px;
+  background-color: lightgreen;
+  text-align: center;
+}
