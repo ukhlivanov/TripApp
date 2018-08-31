@@ -27,7 +27,7 @@ body * {
   float: left;
   width: 49.5%;
   box-sizing: border-box;
-  height: 490px;
+  height: 790px;
   background-color: lightgreen;
 }
 
@@ -37,7 +37,7 @@ body * {
   display: block;
   box-sizing: border-box;
   width: 49.5%;
-  height: 490px;
+  height: 790px;
   background-color: lightgreen;
   position: relative
 }
@@ -64,15 +64,44 @@ body * {
   margin: 5px 10px 5px 0px;
   float: left;
   text-align: center;
-  width: 33%;
+  width: 32%;
   background-color: lightgreen;
 }
 
 .auth {
   margin: 5px 10px 5px 0px;
   float: left;
-  width: 31%;
+  width: 32%;
   margin-right: 0px;
   background-color: lightgreen;
   text-align: center;
+}
+
+.trip-list {
+  list-style: none;
+  padding-left: 0;
+  width: 90%;
+  padding-left: 5%;
+}
+
+.trip-list > li {
+  margin-bottom: 20px;
+  border: 1px solid grey;
+  padding: 20px;
+}
+
+.trip-item {
+  display: block;
+  color: grey;
+  font-style: italic;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+#js-new-name,#js-new-location,#js-new-dates, #js-new-textArea{
+  width: 400px;
 }

@@ -38,6 +38,10 @@
 
       <div class="info">
         <h3>My list of trips</h3>
+
+        <ul class="trip-list js-trip-list">
+        </ul>
+
         <div class="add_trip">
           <button type="button" id="addtrip">Add trip</button>
         </div>
@@ -55,9 +59,9 @@
           <label for="js-add-trip-form"><span> <h2>Info about trip</h2> </span></label>
           <div class="trip-form-title">
             <h3>Title of trip</h3>
-            <input type="text" name="js-add-trip-form-name" id="js-title-new-name" placeholder="Trip name"><br>
-            <input type="text" name="js-add-trip-form-location" id="js-new-title-location" placeholder="Trip location"><br>
-            <input type="text" name="js-add-trip-form-dates" id="js-new-title-dates" placeholder="Trip dates"><br>
+            <input type="text" name="js-add-trip-form-name" id="js-new-name" placeholder="Trip name"><br>
+            <input type="text" name="js-add-trip-form-location" id="js-new-location" placeholder="Trip location"><br>
+            <input type="text" name="js-add-trip-form-dates" id="js-new-dates" placeholder="Trip dates"><br>
           </div>
 
           <!--<div class="trip-form-places">
@@ -69,7 +73,7 @@
 
           <div class="trip-form-content">
             <h3>Additional info about trip</h3>
-            <textarea style="width: 400px; height: 100px;" name="content" form="js-add-trip-form">Enter content here...</textarea><br>
+            <textarea style="width: 400px; height: 100px;" name="content" form="js-add-trip-form" id="js-new-textArea">Enter content here...</textarea><br>
           </div>
           <br>
           <button type="submit" id="submittrip">Save trip</button>

@@ -2,14 +2,16 @@ const MOCK_TRIPS = [{
   name: 'Highway to SF',
   location: 'SF, California',
   startDate: '2010-01-01',
-  endDate: '2010-01-15'
+  endDate: '2010-01-15',
+  content: 'Can not believe how much fun I am having'
 }]
 
-function addTrip({ name, location, dates }) {
+function addTrip({ name, location, dates, content }) {
   const newTrip = {
     name,
     location,
-    dates: dates.split(',')
+    dates: dates.split(','),
+    content
   }
   MOCK_TRIPS.push(newTrip);
   //https://www.promisejs.org
@@ -17,4 +19,4 @@ function addTrip({ name, location, dates }) {
   return Promise.resolve(MOCK_TRIPS);
 }
 
-module.exports = { addTrip }
+module.exports = { addTrip, MOCK_TRIPS }
