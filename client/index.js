@@ -20,7 +20,8 @@ var tripItemTemplate = (
       </div>
     </li>`
   );
-  var TRIP_LIST_URL = '/trip-list';
+  var serverBase = "//localhost:8080/";
+  var TRIP_LIST_URL = serverBase + 'trip-list';
   
   function getAndDisplayTripList() {
     console.log('Retrieving trip list');
@@ -52,42 +53,11 @@ var tripItemTemplate = (
     
     });
   }
-  
-  
-  function deletetrip(tripId) {
-    console.log('Deleting trip `' + tripId + '`');
-    $.ajax({
-      url: TRIP_LIST_URL + '/' + tripId,
-      method: 'DELETE',
-      success: getAndDisplayTripList
-    });
-  }
-  
-  function handleTripDelete() {
-    $('main').on('click','.js-trip-item-delete', function(e) {
-      e.preventDefault();
-      deletetrip(
-        $(e.currentTarget).closest('.js-trip-item').attr('id'));
-    });
-  }
-  
-  function addTripItem(item) {
-    console.log('Adding trip item: ' + item);
-    $.ajax({
-      method: 'POST',
-      url: TRIP_LIST_URL,
-      data: JSON.stringify(item),
-      success: function() {
-        getAndDisplayTripList();
-      },
-      dataType: 'json',
-      contentType: 'application/json'
-    });
-  }
+
   
   function renderTripForm() {
-    $('#addtrip').on('click', function () {
-      $('.popup-overlay, .popup-content').addClass("active");
+    $('#js-trip-item-add').on('click', function () {
+      $('.popup-overlay-new-trip, .popup-content-new-trip').addClass("active");
       $(".box-parent").addClass("inactive");
     });
   }
@@ -98,8 +68,8 @@ var tripItemTemplate = (
       method: "POST",
       url: TRIP_LIST_URL,
       data: JSON.stringify(item),
-      success: function(data) {
-        getAndDisplayShoppingList();
+      success: function() {
+        getAndDisplayTripList();
       },
       dataType: "json",
       contentType: "application/json"
@@ -107,7 +77,7 @@ var tripItemTemplate = (
       console.log("Adding trip: " + item);
       getAndDisplayTripList();
     }).then(()=>{
-      $(".popup-overlay, .popup-content").removeClass("active");
+      $(".popup-overlay-new-trip, .popup-content-new-trip").removeClass("active");
       $(".box-parent").removeClass("inactive");
       $('#js-new-name').val('');
       $('#js-new-location').val('');
@@ -125,7 +95,7 @@ var tripItemTemplate = (
   });
 }
 
- function getTripFormDetails(e) {
+function getTripFormDetails(e) {
   return {
     name: $(e.currentTarget).find('#js-new-name').val(),
     location: $(e.currentTarget).find('#js-new-location').val(),
@@ -133,11 +103,105 @@ var tripItemTemplate = (
     dates: $(e.currentTarget).find('#js-new-dates').val()
   }
 }
+
+/////////////////////////////////////////////////////////
+
+
+function deletetrip(tripId) {
+  console.log('Deleting trip `' + tripId + '`');
+  $.ajax({
+    url: TRIP_LIST_URL + '/' + tripId,
+    method: 'DELETE',
+    success: getAndDisplayTripList
+  });
+}
+
+function handleTripDelete() {
+  $('main').on('click','.js-trip-item-delete', function(e) {
+    e.preventDefault();
+    deletetrip(
+      $(e.currentTarget).closest('.js-trip-item').attr('id'));
+  });
+}
+
+///////////////////////////////////////////////////////////////
+
+
+
+function handleTripEdit(){
+  $('main').on('click','.js-trip-item-edit', function(e) {
+    e.preventDefault();
+    var element = $(e.currentTarget).closest(".js-trip-item");
+    var item = {
+      id: element.attr("id"),
+      name: element.find(".js-trip-item-name").text(),
+      location: element.find(".js-trip-item-location").text(),
+      content: element.find(".js-trip-item-content").text(),
+      dates: element.find(".js-trip-item-dates").text()
+    };
+    
+    getTripFormWithDetails(item);
+    saveUpdatedTrip(element.attr("id"));
+  });
+}
+
+
+
+function getTripFormWithDetails(item) {
+  $('#js-upd-trip-form').find('#js-upd-name').val(item.name);
+  $('#js-upd-trip-form').find('#js-upd-location').val(item.location);
+  $('#js-upd-trip-form').find('#js-upd-textArea').val(item.content);
+  $('#js-upd-trip-form').find('#js-upd-dates').val(item.dates);
+
+  $('.popup-overlay-upd-trip, .popup-content-upd-trip').addClass("active");
+  $(".box-parent").addClass("inactive");
+}
+
+
+function saveUpdatedTrip(tripId){
+
+  $("#js-upd-trip-form").submit(function (e) {
+    e.preventDefault();
+    var element = $(e.currentTarget).closest(".js-trip-item");
+    var item = {
+      id: tripId,
+      name: $('#js-upd-trip-form').find('input[name="js-upd-trip-form-name"]').val(),
+      location: $('#js-upd-trip-form').find('input[name="js-upd-trip-form-location"]').val(),
+      content: $('#js-upd-trip-form').find('textarea').val(),
+      dates: $('#js-upd-trip-form').find('input[name="js-upd-trip-form-dates"]').val(),
+    };
+
+    console.log(item);
+    console.log("Updating trip item `" + item.id + "`");
+    $.ajax({
+      url: TRIP_LIST_URL + "/" + item.id,
+      method: "PUT",
+      data: JSON.stringify(item),
+      success: function(data) {
+        getAndDisplayTripList();
+      },
+      dataType: "json",
+      contentType: "application/json"
+    }).then(()=>{
+      $(".popup-overlay-upd-trip, .popup-content-upd-trip").removeClass("active");
+      $(".box-parent").removeClass("inactive");
+      $('#js-upd-name').val('');
+      $('#js-upd-location').val('');
+      $('#js-upd-textArea').val('');
+      $('#js-upd-dates').val('');
+    }).then(()=>{
+      console.log("Updating trip list: " + item);
+      getAndDisplayTripList();
+    });
+    
+  });
   
+}  
 
   $(function() {
     getAndDisplayTripList();
     handleTripDelete();
     handleTripListAdd();
+    handleTripEdit();
   })
   

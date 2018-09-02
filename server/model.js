@@ -7,56 +7,43 @@ function StorageException(message) {
 }
 
 const Trips = {
-  create: function(name, content, location, dates) {
-    const trip = {
-      id: uuid.v4(),
-      name: name,
-      location: location,
-      dates: dates,
-      publishDate: Date.now(),
-      content: content
-    };
-    this.trips.push(trip);
-    return trip;
-  },
-
-  get: function(id=null) {
-
-    if (id !== null) {
-      return this.trips.find(trip => trip.id === id);
+    create: function(name, content, location, dates) {
+      console.log("Creating new trip list item");
+      const item = {
+        id: uuid.v4(),
+        name: name,
+        location: location,
+        dates: dates,
+        content: content
+      };
+      this.items[item.id] = item;
+      return item;
+    },
+    get: function() {
+      console.log("Retrieving trip list items");
+      return Object.keys(this.items).map(key => this.items[key]);
+    },
+    delete: function(id) {
+      console.log(`Deleting shopping list item \`${id}\``);
+      delete this.items[id];
+    },
+    update: function(updatedItem) {
+      console.log(`Updating trip list item \`${updatedItem.id}\``);
+      const { id } = updatedItem;
+      if (!(id in this.items)) {
+        throw StorageException(
+          `Can't update item \`${id}\` because doesn't exist.`
+        );
+      }
+      this.items[updatedItem.id] = updatedItem;
+      return updatedItem;
     }
-    // return trips sorted (descending) by
-    // publish date
-    return this.trips.sort(function(a, b) {
-      return b.publishDate - a.publishDate
-    });
-  },
-  delete: function(id) {
-    const tripIndex = this.trips.findIndex(
-      trip => trip.id === id);
-    if (tripIndex > -1) {
-      this.trips.splice(tripIndex, 1);
-    }
-  },
-  update: function(updatedTrip) {
-    const {id} = updatedTrip;
-    const tripIndex = this.trips.findIndex(
-      trip => trip.id === updatedtrip.id);
-    if (tripIndex === -1) {
-      throw new StorageException(
-        `Can't update item \`${id}\` because doesn't exist.`)
-    }
-    this.trips[tripIndex] = Object.assign(
-      this.trips[tripIndex], updatedtrip);
-    return this.trips[tripIndex];
+  };
+  
+  function createTripsModel() {
+    const storage = Object.create(Trips);
+    storage.items = {};
+    return storage;
   }
-};
 
-function createTripsModel() {
-  const storage = Object.create(Trips);
-  storage.trips = [];
-  return storage;
-}
-
-
-module.exports = {ListTrips: createTripsModel()};
+  module.exports = {ListTrips: createTripsModel()};

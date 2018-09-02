@@ -4,14 +4,15 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
-const {ListTrips} = require('./model');
+const { ListTrips } = require('./model');
 
 ListTrips.create(
-                'Weekends in San-Francisco', 
-                'Can not believe how much fun I am having',
-                'San-Francisco, CA',
-                '05/24/2018 - 05/27/2018',  
-                );
+  'Weekends in San-Francisco',
+  'Can not believe how much fun I am having',
+  'San-Francisco, CA',
+  '05/24/2018 - 05/27/2018',
+);
+
 
 
 router.get('/', (req, res) => {
@@ -29,7 +30,7 @@ router.delete('/:id', (req, res) => {
 router.post('/', jsonParser, (req, res) => {
   console.log(req.body);
   const requiredFields = ['name', 'content', 'location', 'dates'];
-  for (let i=0; i<requiredFields.length; i++) {
+  for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
       const message = `Missing \`${field}\` in request body`
@@ -43,7 +44,7 @@ router.post('/', jsonParser, (req, res) => {
 
 router.put('/:id', jsonParser, (req, res) => {
   const requiredFields = ['id', 'name', 'content', 'location', 'dates'];
-  for (let i=0; i<requiredFields.length; i++) {
+  for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
       const message = `Missing \`${field}\` in request body`
@@ -52,23 +53,22 @@ router.put('/:id', jsonParser, (req, res) => {
     }
   }
   if (req.params.id !== req.body.id) {
-    const message = (
-      `Request path id (${req.params.id}) and request body id `
-      `(${req.body.id}) must match`);
+    const message = `Request path id (${req.params.id }) and request body id ``(${req.body.id}) must match`;
     console.error(message);
     return res.status(400).send(message);
   }
-  console.log(`Updating blog list item \`${req.params.id}\``);
-  const item = ListTrips.update({
-    id: req.params.id,
-    title: req.body.name,
-    author: req.body.location,
-    content: req.body.content,
-    publishDate: req.body.dates
+  console.log(req.params);
+   console.log(`Updating trip item \`${req.params.id}\``);
+  
+   const item = ListTrips.update({
+     id: req.params.id,
+     name: req.body.name,
+     location: req.body.location,
+     content: req.body.content,
+     dates: req.body.dates
   });
   console.log("ITEM" + "  " + item);
-  
+
   res.status(204).json(item);
 })
-
 module.exports = router;

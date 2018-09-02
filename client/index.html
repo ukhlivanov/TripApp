@@ -43,7 +43,7 @@
         </ul>
 
         <div class="add_trip">
-          <button type="button" id="addtrip">Add trip</button>
+          <button type="button" id="js-trip-item-add">Add trip</button>
         </div>
       </div>
 
@@ -53,23 +53,16 @@
     </div>
 
 
-    <div class="popup-overlay">
-      <div class="popup-content">
+    <div class="popup-overlay-new-trip">
+      <div class="popup-content-new-trip">
         <form id="js-add-trip-form">
           <label for="js-add-trip-form"><span> <h2>Info about trip</h2> </span></label>
-          <div class="trip-form-title">
+          <div>
             <h3>Title of trip</h3>
             <input type="text" name="js-add-trip-form-name" id="js-new-name" placeholder="Trip name"><br>
             <input type="text" name="js-add-trip-form-location" id="js-new-location" placeholder="Trip location"><br>
             <input type="text" name="js-add-trip-form-dates" id="js-new-dates" placeholder="Trip dates"><br>
           </div>
-
-          <!--<div class="trip-form-places">
-            <h3>Enter the places you have visited</h3>
-            <input type="text" name="js-add-trip-form-places" id="js-places-new-name1" placeholder="Place location 1"><br>
-            <input type="text" name="js-add-trip-form-places" id="js-places-new-name2" placeholder="Place location 2"><br>
-            <input type="text" name="js-add-trip-form-places" id="js-places-new-name3" placeholder="Place location 3"><br>
-          </div> -->
 
           <div class="trip-form-content">
             <h3>Additional info about trip</h3>
@@ -80,6 +73,31 @@
         </form>
       </div>
     </div>
+
+
+    <div class="popup-overlay-upd-trip">
+      <div class="popup-content-upd-trip">
+        <form id="js-upd-trip-form">
+          <label for="js-upd-trip-form"><span> <h2>Info about trip</h2> </span></label>
+          <div>
+            <h3>Title of trip</h3>
+            <input type="text" name="js-upd-trip-form-name" id="js-upd-name" placeholder="Trip name"><br>
+            <input type="text" name="js-upd-trip-form-location" id="js-upd-location" placeholder="Trip location"><br>
+            <input type="text" name="js-upd-trip-form-dates" id="js-upd-dates" placeholder="Trip dates"><br>
+          </div>
+
+          <div class="trip-form-content">
+            <h3>Additional info about trip</h3>
+            <textarea style="width: 400px; height: 100px;" name="js-upd-trip-form-content" form="js-upd-trip-form" id="js-upd-textArea"></textarea><br>
+          </div>
+          <br>
+          <button type="submit" id="updatetrip">Update trip</button>
+        </form>
+      </div>
+    </div>
+
+
+
 
   </main>
 

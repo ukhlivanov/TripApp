@@ -102,6 +102,3 @@ button:hover {
   cursor: pointer;
 }
 
-#js-new-name,#js-new-location,#js-new-dates, #js-new-textArea{
-  width: 400px;
-}

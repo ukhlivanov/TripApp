@@ -1,22 +1,32 @@
-.popup-overlay.active {
+.popup-overlay-new-trip.active {
   visibility: visible;
   text-align: center;
 }
-.popup-content.active {
+.popup-overlay-upd-trip.active {
+  visibility: visible;
+  text-align: center;
+}
+
+.popup-content-new-trip.active {
+  visibility: visible;
+}
+.popup-content-upd-trip.active {
   visibility: visible;
 }
 
-.popup-content {
+.popup-content-new-trip {
   visibility: hidden;
 }
-
+.popup-content-upd-trip {
+  visibility: hidden;
+}
 .box-parent.inactive {
   pointer-events: none;
   opacity: 0.5;
   background: lightgreen;
 }
 
-.popup-overlay {
+.popup-overlay-new-trip {
   left: 50%;
   transform: translate(-50%, 0);
   width: 40%;
@@ -26,4 +36,24 @@
   position: absolute;
   background: #ffffff;
   border: 3px solid #666666;
+}
+
+.popup-overlay-upd-trip {
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 40%;
+  border: 3px solid #73AD21;
+  padding: 0px;
+  visibility: hidden;
+  position: absolute;
+  background: #ffffff;
+  border: 3px solid #666666;
+}
+
+#js-new-name,#js-new-location,#js-new-dates, #js-new-textArea{
+  width: 400px;
+}
+
+#js-upd-name,#js-upd-location,#js-upd-dates, #js-upd-textArea{
+  width: 400px;
 }
