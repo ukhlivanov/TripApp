@@ -22,6 +22,7 @@ const Trips = {
     get: function() {
       console.log("Retrieving trip list items");
       return Object.keys(this.items).map(key => this.items[key]);
+
     },
     delete: function(id) {
       console.log(`Deleting shopping list item \`${id}\``);
