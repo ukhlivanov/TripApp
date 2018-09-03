@@ -22,13 +22,10 @@ body * {
 }
 
 #map {
-  border: 3px solid #ccc;
-  margin-left: 8px;
   float: left;
-  width: 49.5%;
-  box-sizing: border-box;
   height: 790px;
-  background-color: lightgreen;
+  width: 50%;
+ 
 }
 
 .info {
@@ -101,4 +98,14 @@ body * {
 button:hover {
   cursor: pointer;
 }
+
+.trip-title{
+  border: 1px solid black;
+}
+
+.trip-title:hover {
+  cursor: pointer;
+  background: lightskyblue;
+}
+
 

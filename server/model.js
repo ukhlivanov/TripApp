@@ -14,14 +14,18 @@ const Trips = {
         name: name,
         location: location,
         dates: dates,
-        content: content
+        content: content,
+        publishDate: Date.now()
       };
       this.items[item.id] = item;
       return item;
     },
     get: function() {
       console.log("Retrieving trip list items");
-      return Object.keys(this.items).map(key => this.items[key]);
+      console.log(this.items);
+      return Object.keys(this.items).map(key => this.items[key]).sort(function(a, b) {
+        return b.publishDate - a.publishDate
+      });
 
     },
     delete: function(id) {

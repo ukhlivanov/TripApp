@@ -12,6 +12,20 @@ ListTrips.create(
   'San-Francisco, CA',
   '05/24/2018 - 05/27/2018',
 );
+ListTrips.create(
+  'Weekends in Las-Vegas',
+  'Can not believe how much fun I am having',
+  'Las-Vegas, NV',
+  '06/21/2018 - 06/24/2018',
+);
+ListTrips.create(
+  'Weekends in Sacramento',
+  'Can not believe how much fun I am having',
+  'Sacramento, CA',
+  '06/21/2018 - 06/24/2018',
+);
+
+
 
 
 

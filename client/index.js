@@ -1,5 +1,6 @@
+import { initMap, geocodeAddress } from './google'
 
-var location;
+
 var tripItemTemplate = (
   `<li class="js-trip-item">
       <div class="trip-title">
@@ -215,7 +216,7 @@ function handleSelectTrip() {
     axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
       params: {
         address: location,
-        key: 'AIzaSyA4CUz3OXwEY2GM_5-gfhRDPssxbOpMp5M'
+        key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
       }
     })
       .then(function (response) {
@@ -225,14 +226,22 @@ function handleSelectTrip() {
         // Formatted Address
         var formattedAddress = response.data.results[0].formatted_address;
 
-
         // Geometry
         var lat = response.data.results[0].geometry.location.lat;
         var lng = response.data.results[0].geometry.location.lng;
 
-        // Output to app
-        //document.getElementById('formatted-address').innerHTML = formattedAddressOutput;
-        //document.getElementById('geometry').innerHTML = geometryOutput;
+        console.log(lat);
+        console.log(lng);
+        console.log(formattedAddress);
+
+        const map = new google.maps.Map(document.getElementById('map'), {
+          center: {
+              lat: Number(lat),
+              lng: Number(lng)
+          },
+          zoom: 12
+        });
+
       })
       .catch(function (error) {
         console.log(error);
@@ -240,21 +249,14 @@ function handleSelectTrip() {
 
   });
 
+
+
 }
 
 
 
 ///////////////////////////////////////////////////////////////
 
-function initMap() {
-  const map = new google.maps.Map(document.getElementById('map'), {
-    center: {
-      lat: 40.7128,
-      lng: -74.0060
-    },
-    zoom: 10
-  });
-}
 
 window.initMap = initMap;
 
