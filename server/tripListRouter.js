@@ -25,10 +25,6 @@ ListTrips.create(
   '06/21/2018 - 06/24/2018',
 );
 
-
-
-
-
 router.get('/', (req, res) => {
   res.json(ListTrips.get());
 });

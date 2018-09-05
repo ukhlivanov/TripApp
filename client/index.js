@@ -1,5 +1,33 @@
 import { initMap, geocodeAddress } from './google'
 
+var location;
+
+var tripItemTemplateShort = (`
+<li class="js-trip-item-short">
+      <div class="trip-title">
+        <p><span class="trip-item js-trip-item-name"></span></p>
+        <p><span class="trip-item js-trip-item-location"></span></p>
+      </div>
+
+     
+      <div class="trip-controls">
+
+        <button class="js-trip-item-edit">
+          <span class="button-label">Edit</span>
+        </button>
+  
+        <button class="js-trip-item-delete">
+          <span class="button-label">Delete</span>
+        </button>
+
+        <button class="js-trip-item-addPlace">
+          <span class="button-label">Add place</span>
+        </button>
+
+      <div>
+     
+    </li>
+`);
 
 var tripItemTemplate = (
   `<li class="js-trip-item">
@@ -12,6 +40,7 @@ var tripItemTemplate = (
 
      
       <div class="trip-controls">
+
         <button class="js-trip-item-edit">
           <span class="button-label">Edit</span>
         </button>
@@ -19,10 +48,17 @@ var tripItemTemplate = (
         <button class="js-trip-item-delete">
           <span class="button-label">Delete</span>
         </button>
+
+        <button class="js-trip-item-addPlace">
+          <span class="button-label">Add place</span>
+        </button>
+
       <div>
      
     </li>`
 );
+
+
 var serverBase = "//localhost:8080/";
 var TRIP_LIST_URL = serverBase + 'trip-list';
 
@@ -57,14 +93,12 @@ function getAndDisplayTripList() {
   });
 }
 
-
 function renderTripForm() {
   $('#js-trip-item-add').on('click', function () {
     $('.popup-overlay-new-trip, .popup-content-new-trip').addClass("active");
     $(".box-parent").addClass("inactive");
   });
 }
-
 
 function addTripItem(item) {
   $.ajax({
@@ -108,8 +142,6 @@ function getTripFormDetails(e) {
 }
 
 /////////////////////////////////////////////////////////
-
-
 function deletetrip(tripId) {
   console.log('Deleting trip `' + tripId + '`');
   $.ajax({
@@ -127,11 +159,25 @@ function handleTripDelete() {
   });
 
 }
+/////////////////////////////////////////////////////////////
+function handleAddPlace() {
+  $('main').on('click', '.js-trip-item-addPlace', function (e) {
+    e.preventDefault();
+    $('.popup-overlay-add-place, .popup-content-add-place').addClass("active");
+    $(".box-parent").addClass("inactive");
+    $('.popup-content-add-place').html(`        
+        <form id="js-add-place-form">
+        <label for="js-add-place-form"><span> <h2>Please add place you have visited in ${location} </h2> </span></label>
+        <input type="text" name="js-trip-place-name" id="js-place-name" placeholder="Twin Peaks, Golden Gate Bridge ...."><br>
+        <button type="submit" id="addPlace">Save place</button>
+        </form>
+    `);
+  });
+
+}
+
 
 ///////////////////////////////////////////////////////////////
-
-
-
 function handleTripEdit() {
   $('main').on('click', '.js-trip-item-edit', function (e) {
     e.preventDefault();
@@ -149,8 +195,6 @@ function handleTripEdit() {
   });
 }
 
-
-
 function getTripFormWithDetails(item) {
   $('#js-upd-trip-form').find('#js-upd-name').val(item.name);
   $('#js-upd-trip-form').find('#js-upd-location').val(item.location);
@@ -160,7 +204,6 @@ function getTripFormWithDetails(item) {
   $('.popup-overlay-upd-trip, .popup-content-upd-trip').addClass("active");
   $(".box-parent").addClass("inactive");
 }
-
 
 function saveUpdatedTrip(tripId) {
 
@@ -202,14 +245,13 @@ function saveUpdatedTrip(tripId) {
   });
 
 }
-///////////////////////////////////////////////////////////////
-
+//////////////////////////////////////////////////////////////
 function handleSelectTrip() {
 
   $('main').on('click', '.trip-title', function (e) {
     e.preventDefault();
     var element = $(e.currentTarget).closest(".js-trip-item");
-    var location = element.find(".js-trip-item-location").text();
+    location = element.find(".js-trip-item-location").text();
 
     console.log("LOOOG" + location);
 
@@ -219,29 +261,10 @@ function handleSelectTrip() {
         key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
       }
     })
-      .then(function (response) {
-        // Log full response
-        console.log(response);
-
-        // Formatted Address
-        var formattedAddress = response.data.results[0].formatted_address;
-
-        // Geometry
-        var lat = response.data.results[0].geometry.location.lat;
-        var lng = response.data.results[0].geometry.location.lng;
-
-        console.log(lat);
-        console.log(lng);
-        console.log(formattedAddress);
-
-        const map = new google.maps.Map(document.getElementById('map'), {
-          center: {
-              lat: Number(lat),
-              lng: Number(lng)
-          },
-          zoom: 12
-        });
-
+      .then(
+        function(response){
+          geocodeAddress(response);
+  
       })
       .catch(function (error) {
         console.log(error);
@@ -249,18 +272,10 @@ function handleSelectTrip() {
 
   });
 
-
-
 }
 
-
-
 ///////////////////////////////////////////////////////////////
-
-
 window.initMap = initMap;
-
-
 
 $(function () {
 
@@ -269,5 +284,6 @@ $(function () {
   handleSelectTrip();
   handleTripListAdd();
   handleTripEdit();
+  handleAddPlace();
 
 })
