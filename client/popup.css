@@ -10,6 +10,11 @@
   visibility: visible;
   text-align: center;
 }
+.popup-overlay-view-fullTrip.active {
+  visibility: visible;
+  text-align: center;
+}
+
 
 
 .popup-content-new-trip.active {
@@ -21,7 +26,12 @@
 .popup-content-add-place.active {
   visibility: visible;
 }
-
+.popup-content-view-fullTrip.active {
+  visibility: visible;
+}
+.trip-controls.active{
+  visibility: visible;
+}
 
 
 .popup-content-new-trip {
@@ -33,7 +43,12 @@
 .popup-content-add-place {
   visibility: hidden;
 }
-
+.popup-content-view-fullTrip {
+  visibility: hidden;
+}
+.trip-controls{
+  visibility: hidden;
+}
 
 
 
@@ -42,6 +57,11 @@
   opacity: 0.5;
   background: lightgreen;
 }
+.js-trip-item-content.inactive{
+  visibility: hidden;
+}
+
+
 
 .popup-overlay-new-trip {
   left: 50%;
@@ -68,6 +88,17 @@
 }
 
 .popup-overlay-add-place {
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 40%;
+  border: 3px solid #73AD21;
+  padding: 0px;
+  visibility: hidden;
+  position: absolute;
+  background: #ffffff;
+  border: 3px solid #666666;
+}
+.popup-overlay-view-fullTrip {
   left: 50%;
   transform: translate(-50%, 0);
   width: 40%;

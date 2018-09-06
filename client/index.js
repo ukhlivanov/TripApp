@@ -2,55 +2,22 @@ import { initMap, geocodeAddress } from './google'
 
 var location;
 
-var tripItemTemplateShort = (`
-<li class="js-trip-item-short">
-      <div class="trip-title">
-        <p><span class="trip-item js-trip-item-name"></span></p>
-        <p><span class="trip-item js-trip-item-location"></span></p>
-      </div>
-
-     
-      <div class="trip-controls">
-
-        <button class="js-trip-item-edit">
-          <span class="button-label">Edit</span>
-        </button>
-  
-        <button class="js-trip-item-delete">
-          <span class="button-label">Delete</span>
-        </button>
-
-        <button class="js-trip-item-addPlace">
-          <span class="button-label">Add place</span>
-        </button>
-
-      <div>
-     
-    </li>
-`);
-
 var tripItemTemplate = (
   `<li class="js-trip-item">
       <div class="trip-title">
         <p><span class="trip-item js-trip-item-name"></span></p>
         <p><span class="trip-item js-trip-item-location"></span></p>
-        <p><span class="trip-item js-trip-item-content"></span></p>
         <p><span class="trip-item js-trip-item-dates"></span></p>
       </div>
 
-     
       <div class="trip-controls">
-
-        <button class="js-trip-item-edit">
-          <span class="button-label">Edit</span>
-        </button>
   
         <button class="js-trip-item-delete">
           <span class="button-label">Delete</span>
         </button>
 
-        <button class="js-trip-item-addPlace">
-          <span class="button-label">Add place</span>
+        <button class="js-trip-item-view">
+          <span class="button-label">View</span>
         </button>
 
       <div>
@@ -80,14 +47,12 @@ function getAndDisplayTripList() {
       var itemLocation = element.find('.js-trip-item-location');
       itemLocation.text(item.location);
 
-      var itemContent = element.find('.js-trip-item-content');
-      itemContent.text(item.content);
-
       var itemDates = element.find('.js-trip-item-dates');
       itemDates.text(item.dates);
 
       return element;
     });
+   
     $('.js-trip-list').html(itemElements);
 
   });
@@ -116,6 +81,7 @@ function addTripItem(item) {
   }).then(() => {
     $(".popup-overlay-new-trip, .popup-content-new-trip").removeClass("active");
     $(".box-parent").removeClass("inactive");
+
     $('#js-new-name').val('');
     $('#js-new-location').val('');
     $('#js-new-textArea').val('');
@@ -163,17 +129,86 @@ function handleTripDelete() {
 function handleAddPlace() {
   $('main').on('click', '.js-trip-item-addPlace', function (e) {
     e.preventDefault();
+    $('.popup-overlay-upd-trip, .popup-content-upd-trip').removeClass("active");
     $('.popup-overlay-add-place, .popup-content-add-place').addClass("active");
     $(".box-parent").addClass("inactive");
     $('.popup-content-add-place').html(`        
         <form id="js-add-place-form">
         <label for="js-add-place-form"><span> <h2>Please add place you have visited in ${location} </h2> </span></label>
         <input type="text" name="js-trip-place-name" id="js-place-name" placeholder="Twin Peaks, Golden Gate Bridge ...."><br>
+        
         <button type="submit" id="addPlace">Save place</button>
+        
+        <button class="js-trip-addPlace-close">
+        <span class="button-label">Close</span>
+        </button>
+
         </form>
     `);
   });
 
+}
+
+function handleCloseAddPlaceView(){
+  $('main').on('click', '.js-trip-addPlace-close', function (e) {
+    e.preventDefault(); 
+    $('.popup-overlay-add-place, .popup-content-add-place').removeClass("active");
+    $('.popup-overlay-upd-trip, .popup-content-upd-trip').addClass("active");
+    
+  });
+}
+///////////////////////////////////////////////////////////////
+
+function hadleViewTrip(){
+  $('main').on('click', '.js-trip-item-view', function (e) {
+    e.preventDefault();
+    $('.popup-overlay-view-fullTrip, .popup-content-view-fullTrip').addClass("active");
+    $(".box-parent").addClass("inactive");
+
+    var element = $(e.currentTarget).closest(".js-trip-item");
+    var item;
+    $.getJSON(TRIP_LIST_URL, function (items) {
+      item = items.find( item => item.id === element.attr("id") );
+      console.log(item);
+      
+      updateViewFullTrip(item);
+    });
+  
+  });
+
+}
+
+function updateViewFullTrip(item){
+  $('.popup-content-view-fullTrip').html(`        
+  <div id="full-trip-view">
+  <p><span class="trip-item js-full-trip-name">${item.name}</span></p>
+  <p><span class="trip-item js-full-trip-location">${item.location}</span></p>
+  <p><span class="trip-item js-full-trip-dates"></span>${item.dates}</p>
+  <p><span class="trip-item js-full-trip-content"></span>${item.content}</p>
+  </div>
+
+
+  <div class="full-trip-controls">
+
+  <button class="js-trip-item-edit">
+    <span class="button-label">Edit</span>
+  </button>
+
+  <button class="js-trip-item-close">
+      <span class="button-label">Close</span>
+  </button>
+
+<div>
+
+`);
+}
+
+function handleCloseFullView(){
+  $('main').on('click', '.js-trip-item-close', function (e) {
+    e.preventDefault();
+    $(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").removeClass("active");
+    $(".box-parent").removeClass("inactive");
+  });
 }
 
 
@@ -181,17 +216,16 @@ function handleAddPlace() {
 function handleTripEdit() {
   $('main').on('click', '.js-trip-item-edit', function (e) {
     e.preventDefault();
-    var element = $(e.currentTarget).closest(".js-trip-item");
-    var item = {
-      id: element.attr("id"),
-      name: element.find(".js-trip-item-name").text(),
-      location: element.find(".js-trip-item-location").text(),
-      content: element.find(".js-trip-item-content").text(),
-      dates: element.find(".js-trip-item-dates").text()
-    };
+    $(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").removeClass("active");
+    $(".box-parent").removeClass("inactive");
 
-    getTripFormWithDetails(item);
-    saveUpdatedTrip(element.attr("id"));
+    var name = $("#full-trip-view").find(".js-full-trip-name").text();
+    
+    $.getJSON(TRIP_LIST_URL, function (items) {
+      var item = items.find( item => item.name === name );
+      getTripFormWithDetails(item);
+      saveUpdatedTrip(item.id);
+    });
   });
 }
 
@@ -238,41 +272,76 @@ function saveUpdatedTrip(tripId) {
       $('#js-upd-dates').val('');
     }).then(() => {
       console.log("Updating trip list: " + item);
-
       getAndDisplayTripList();
+      updateViewFullTrip(item);
+      $(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").addClass("active");
     });
 
   });
 
 }
+
+function handleCloseEditView(){
+  $('main').on('click', '.js-trip-upd-close', function (e) {
+    e.preventDefault(); 
+    $(".popup-overlay-upd-trip, .popup-content-upd-trip").removeClass("active");
+    $(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").addClass("active");
+    //$(".box-parent").removeClass("inactive");
+  });
+}
 //////////////////////////////////////////////////////////////
 function handleSelectTrip() {
-
+  var prevElement;
   $('main').on('click', '.trip-title', function (e) {
     e.preventDefault();
-    var element = $(e.currentTarget).closest(".js-trip-item");
-    location = element.find(".js-trip-item-location").text();
+    
+if(!prevElement){
+  var currentElement = $(e.currentTarget).closest(".js-trip-item");
+  location = currentElement.find(".js-trip-item-location").text();
+  currentElement.find(".trip-controls").addClass("active");
+  axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+    params: {
+      address: location,
+      key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
+    }
+  })
+    .then(
+      function(response){
+        geocodeAddress(response);
 
-    console.log("LOOOG" + location);
-
-    axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-      params: {
-        address: location,
-        key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
-      }
     })
-      .then(
-        function(response){
-          geocodeAddress(response);
+    .catch(function (error) {
+      console.log(error);
+    });
+    prevElement = currentElement;
+
+}else if(prevElement!==currentElement){
+  prevElement.find(".trip-controls").removeClass("active");
+  var currentElement = $(e.currentTarget).closest(".js-trip-item");
+  location = currentElement.find(".js-trip-item-location").text();
+  currentElement.find(".trip-controls").addClass("active");
   
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+    params: {
+      address: location,
+      key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
+    }
+  })
+    .then(
+      function(response){
+        geocodeAddress(response);
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    prevElement = currentElement;
+}
 
   });
 
 }
+
 
 ///////////////////////////////////////////////////////////////
 window.initMap = initMap;
@@ -285,5 +354,9 @@ $(function () {
   handleTripListAdd();
   handleTripEdit();
   handleAddPlace();
+  hadleViewTrip();
+  handleCloseFullView();
+  handleCloseEditView();
+  handleCloseAddPlaceView();
 
 })
