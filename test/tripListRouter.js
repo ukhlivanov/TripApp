@@ -60,7 +60,7 @@ describe('TripListRouter', () => {
         expect(res).to.have.status(201);
         expect(res).to.be.json;
         expect(res.body).to.be.a("object");
-        expect(res.body).to.include.keys("id", "name", "location", "content", "dates","publishDate");
+        expect(res.body).to.include.keys("id", "name", "location", "content", "dates", "publishDate");
         expect(res.body.id).to.not.equal(null);
 
         expect(newItem.name).to.be.equal(res.body.name);
@@ -93,38 +93,38 @@ describe('TripListRouter', () => {
 
     return (
       chai
-        .request(app)
-        .get("/trip-list")
-        .then(function (res) {
-          updateData.id = res.body[0].id;
-          return chai
-            .request(app)
-            .put(`/trip-list/${updateData.id}`)
-            .send(updateData);
-        })
-        .then(function (res) {
-           res.headers = {
-            'content-type': 'application/json'
-           };
-          expect(res).to.have.status(204);
-          expect(res).to.be.json;
-          expect(res.body).to.be.a("object");
-          //expect(res.body).to.deep.equal({name: updateData.name});
-        })
+      .request(app)
+      .get("/trip-list")
+      .then(function (res) {
+        updateData.id = res.body[0].id;
+        return chai
+          .request(app)
+          .put(`/trip-list/${updateData.id}`)
+          .send(updateData);
+      })
+      .then(function (res) {
+        res.headers = {
+          'content-type': 'application/json'
+        };
+        expect(res).to.have.status(204);
+        expect(res).to.be.json;
+        expect(res.body).to.be.a("object");
+        //expect(res.body).to.deep.equal({name: updateData.name});
+      })
     );
   });
 
   it("should delete items on DELETE", function () {
     return (
       chai
-        .request(app)
-        .get("/trip-list")
-        .then(function (res) {
-          return chai.request(app).delete(`/trip-list/${res.body[0].id}`);
-        })
-        .then(function (res) {
-          expect(res).to.have.status(204);
-        })
+      .request(app)
+      .get("/trip-list")
+      .then(function (res) {
+        return chai.request(app).delete(`/trip-list/${res.body[0].id}`);
+      })
+      .then(function (res) {
+        expect(res).to.have.status(204);
+      })
     );
   });
 

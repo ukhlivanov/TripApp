@@ -1,54 +1,41 @@
-const uuid = require('uuid');
 
+const mongoose = require('mongoose')
 
-function StorageException(message) {
-   this.message = message;
-   this.name = "StorageException";
-}
+const server = 'ds251112.mlab.com:51112'
+const database = 'trips'
+const user = 'tripuser'
+const password = 'qwe321$'
 
-const Trips = {
-    create: function(name, content, location, dates) {
-      console.log("Creating new trip list item");
-      const item = {
-        id: uuid.v4(),
-        name: name,
-        location: location,
-        dates: dates,
-        content: content,
-        publishDate: Date.now()
-      };
-      this.items[item.id] = item;
-      return item;
-    },
-    get: function() {
-      console.log("Retrieving trip list items");
-      console.log(this.items);
-      return Object.keys(this.items).map(key => this.items[key]).sort(function(a, b) {
-        return b.publishDate - a.publishDate
-      });
+mongoose.connect(`mongodb://${user}:${password}@${server}/${database}`)
 
-    },
-    delete: function(id) {
-      console.log(`Deleting shopping list item \`${id}\``);
-      delete this.items[id];
-    },
-    update: function(updatedItem) {
-      console.log(`Updating trip list item \`${updatedItem.id}\``);
-      const { id } = updatedItem;
-      if (!(id in this.items)) {
-        throw StorageException(
-          `Can't update item \`${id}\` because doesn't exist.`
-        );
-      }
-      this.items[updatedItem.id] = updatedItem;
-      return updatedItem;
-    }
+const SchemaListTrips =  mongoose.Schema({
+  name: String,
+  location: String,
+  dates: [{
+    startDate: Date,
+    endDate: Date,
+  }],
+  content: String,
+  publishDate: Date
+});
+
+SchemaListTrips.virtual('dates').get(function() {
+  return `${this.dates.startDate} ${this.dates.endDate}`.trim();});
+
+SchemaListTrips.methods.serialize = function() {
+  return {
+    id: this._id,
+    name: this.name,
+    location: this.location,
+    content: this.content,
+    dates: this.dates,
+    publishDate: this.publishDate
   };
-  
-  function createTripsModel() {
-    const storage = Object.create(Trips);
-    storage.items = {};
-    return storage;
-  }
+};
 
-  module.exports = {ListTrips: createTripsModel()};
+
+const ListTrips = mongoose.model('Trip', SchemaListTrips)
+
+module.exports = {
+  ListTrips
+}

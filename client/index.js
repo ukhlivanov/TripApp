@@ -1,13 +1,16 @@
-import { initMap, geocodeAddress } from './google'
+import {
+  initMap,
+  geocodeAddress
+} from './google'
 
 var location;
 
 var tripItemTemplate = (
   `<li class="js-trip-item">
       <div class="trip-title">
-        <p><span class="trip-item js-trip-item-name"></span></p>
-        <p><span class="trip-item js-trip-item-location"></span></p>
-        <p><span class="trip-item js-trip-item-dates"></span></p>
+        <p><span class="trip-item-name js-trip-item-name"></span></p>
+        <p><span class="trip-item-location js-trip-item-location"></span></p>
+        <p><span class="trip-item-dates js-trip-item-dates"></span></p>
       </div>
 
       <div class="trip-controls">
@@ -52,7 +55,7 @@ function getAndDisplayTripList() {
 
       return element;
     });
-   
+
     $('.js-trip-list').html(itemElements);
 
   });
@@ -149,17 +152,17 @@ function handleAddPlace() {
 
 }
 
-function handleCloseAddPlaceView(){
+function handleCloseAddPlaceView() {
   $('main').on('click', '.js-trip-addPlace-close', function (e) {
-    e.preventDefault(); 
+    e.preventDefault();
     $('.popup-overlay-add-place, .popup-content-add-place').removeClass("active");
     $('.popup-overlay-upd-trip, .popup-content-upd-trip').addClass("active");
-    
+
   });
 }
 ///////////////////////////////////////////////////////////////
 
-function hadleViewTrip(){
+function hadleViewTrip() {
   $('main').on('click', '.js-trip-item-view', function (e) {
     e.preventDefault();
     $('.popup-overlay-view-fullTrip, .popup-content-view-fullTrip').addClass("active");
@@ -168,17 +171,17 @@ function hadleViewTrip(){
     var element = $(e.currentTarget).closest(".js-trip-item");
     var item;
     $.getJSON(TRIP_LIST_URL, function (items) {
-      item = items.find( item => item.id === element.attr("id") );
+      item = items.find(item => item.id === element.attr("id"));
       console.log(item);
-      
+
       updateViewFullTrip(item);
     });
-  
+
   });
 
 }
 
-function updateViewFullTrip(item){
+function updateViewFullTrip(item) {
   $('.popup-content-view-fullTrip').html(`        
   <div id="full-trip-view">
   <p><span class="trip-item js-full-trip-name">${item.name}</span></p>
@@ -203,7 +206,7 @@ function updateViewFullTrip(item){
 `);
 }
 
-function handleCloseFullView(){
+function handleCloseFullView() {
   $('main').on('click', '.js-trip-item-close', function (e) {
     e.preventDefault();
     $(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").removeClass("active");
@@ -220,9 +223,9 @@ function handleTripEdit() {
     $(".box-parent").removeClass("inactive");
 
     var name = $("#full-trip-view").find(".js-full-trip-name").text();
-    
+
     $.getJSON(TRIP_LIST_URL, function (items) {
-      var item = items.find( item => item.name === name );
+      var item = items.find(item => item.name === name);
       getTripFormWithDetails(item);
       saveUpdatedTrip(item.id);
     });
@@ -281,9 +284,9 @@ function saveUpdatedTrip(tripId) {
 
 }
 
-function handleCloseEditView(){
+function handleCloseEditView() {
   $('main').on('click', '.js-trip-upd-close', function (e) {
-    e.preventDefault(); 
+    e.preventDefault();
     $(".popup-overlay-upd-trip, .popup-content-upd-trip").removeClass("active");
     $(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").addClass("active");
     //$(".box-parent").removeClass("inactive");
@@ -294,49 +297,49 @@ function handleSelectTrip() {
   var prevElement;
   $('main').on('click', '.trip-title', function (e) {
     e.preventDefault();
-    
-if(!prevElement){
-  var currentElement = $(e.currentTarget).closest(".js-trip-item");
-  location = currentElement.find(".js-trip-item-location").text();
-  currentElement.find(".trip-controls").addClass("active");
-  axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-    params: {
-      address: location,
-      key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
+
+    if (!prevElement) {
+      var currentElement = $(e.currentTarget).closest(".js-trip-item");
+      location = currentElement.find(".js-trip-item-location").text();
+      currentElement.find(".trip-controls").addClass("active");
+      axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+          params: {
+            address: location,
+            key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
+          }
+        })
+        .then(
+          function (response) {
+            geocodeAddress(response);
+
+          })
+        .catch(function (error) {
+          console.log(error);
+        });
+      prevElement = currentElement;
+
+    } else if (prevElement !== currentElement) {
+      prevElement.find(".trip-controls").removeClass("active");
+      var currentElement = $(e.currentTarget).closest(".js-trip-item");
+      location = currentElement.find(".js-trip-item-location").text();
+      currentElement.find(".trip-controls").addClass("active");
+
+      axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+          params: {
+            address: location,
+            key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
+          }
+        })
+        .then(
+          function (response) {
+            geocodeAddress(response);
+
+          })
+        .catch(function (error) {
+          console.log(error);
+        });
+      prevElement = currentElement;
     }
-  })
-    .then(
-      function(response){
-        geocodeAddress(response);
-
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    prevElement = currentElement;
-
-}else if(prevElement!==currentElement){
-  prevElement.find(".trip-controls").removeClass("active");
-  var currentElement = $(e.currentTarget).closest(".js-trip-item");
-  location = currentElement.find(".js-trip-item-location").text();
-  currentElement.find(".trip-controls").addClass("active");
-  
-  axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-    params: {
-      address: location,
-      key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
-    }
-  })
-    .then(
-      function(response){
-        geocodeAddress(response);
-
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    prevElement = currentElement;
-}
 
   });
 

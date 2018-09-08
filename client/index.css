@@ -87,8 +87,8 @@ body * {
   padding: 20px;
 }
 
-.trip-item {
-  display: block;
+.trip-title p{
+  display: inline;
   color: grey;
   font-style: italic;
   font-size: 20px;
@@ -107,5 +107,6 @@ button:hover {
   cursor: pointer;
   background: lightskyblue;
 }
+
 
 
