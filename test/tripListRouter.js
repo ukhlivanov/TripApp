@@ -27,7 +27,7 @@ describe('TripListRouter', () => {
         expect(res.body).to.be.a("array");
         expect(res.body.length).to.be.at.least(1);
 
-        const expectedKeys = ["id", "name", "location", "content", "dates", "publishDate"];
+        const expectedKeys = ["id", "name", "location", "content", "tripDates", "publishDate"];
         res.body.forEach(function (item) {
           let i = 0;
           expect(item).to.be.a("object");
@@ -37,7 +37,7 @@ describe('TripListRouter', () => {
           expect(item.name).to.be.equal(res.body[i].name);
           expect(item.location).to.be.equal(res.body[i].location);
           expect(item.content).to.be.equal(res.body[i].content);
-          expect(item.dates).to.be.equal(res.body[i].dates);
+          expect(item.tripDates).to.be.equal(res.body[i].tripDates);
           i++;
         });
 
@@ -49,7 +49,7 @@ describe('TripListRouter', () => {
       name: "Vacation in Canada",
       location: "Vancouver,Canada",
       content: "Best place for family vacation",
-      dates: "05/05/2015-05/10/2015",
+      tripDates: "05/05/2015-05/10/2015",
       publishDate: Date.now()
     };
     return chai
@@ -60,13 +60,13 @@ describe('TripListRouter', () => {
         expect(res).to.have.status(201);
         expect(res).to.be.json;
         expect(res.body).to.be.a("object");
-        expect(res.body).to.include.keys("id", "name", "location", "content", "dates", "publishDate");
+        expect(res.body).to.include.keys("id", "name", "location", "content", "tripDates", "publishDate");
         expect(res.body.id).to.not.equal(null);
 
         expect(newItem.name).to.be.equal(res.body.name);
         expect(newItem.location).to.be.equal(res.body.location);
         expect(newItem.content).to.be.equal(res.body.content);
-        expect(newItem.dates).to.be.equal(res.body.dates);
+        expect(newItem.tripDates).to.be.equal(res.body.tripDates);
 
         expect(res.body).to.deep.equal(
           Object.assign(newItem, {
@@ -74,7 +74,7 @@ describe('TripListRouter', () => {
             name: res.body.name,
             location: res.body.location,
             content: res.body.content,
-            dates: res.body.dates,
+            tripDates: res.body.tripDates,
             publishDate: res.body.publishDate
           })
         );
@@ -86,7 +86,7 @@ describe('TripListRouter', () => {
       name: "Vacation in Canada",
       location: "Vancouver,Canada",
       content: "Best place for family vacation",
-      dates: "05/05/2015-05/10/2015",
+      tripDates: "05/05/2015-05/10/2015",
       publishDate: Date.now()
     };
 

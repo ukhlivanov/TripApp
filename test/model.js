@@ -1,9 +1,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 chai.use(expect);
-const {
-  ListTrips
-} = require('../server/model')
+const { ListTrips } = require('../server/model')
 const mongoose = require('mongoose');
 
 
@@ -19,7 +17,7 @@ describe('creating trips', () => {
       name: 'Weekends in Las-Vegas',
       content: 'Can not believe how much fun I am having',
       location: 'Las-Vegas, NV',
-      dates: '06/21/2018 - 06/24/2018'
+      tripDates: '06/21/2018 - 06/24/2018'
     });
 
     const count = await ListTrips.count();

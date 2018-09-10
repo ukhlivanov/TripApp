@@ -1,26 +1,24 @@
-
+'use strict';
 const mongoose = require('mongoose')
-
-const server = 'ds251112.mlab.com:51112'
-const database = 'trips'
-const user = 'tripuser'
-const password = 'qwe321$'
-
-mongoose.connect(`mongodb://${user}:${password}@${server}/${database}`)
+mongoose.Promise = global.Promise;
 
 const SchemaListTrips =  mongoose.Schema({
-  name: String,
-  location: String,
-  dates: [{
-    startDate: Date,
-    endDate: Date,
-  }],
-  content: String,
-  publishDate: Date
+  name: {type: String, required: true},
+  location: {type: String, required: true},
+  tripDates: {
+    startDate: {type: Date, required: true},
+    endDate: {type: Date, required: true},
+  },
+  content: {type: String, required: true},
+  publishDate: {type: Date, default: Date.now},
+
 });
 
-SchemaListTrips.virtual('dates').get(function() {
-  return `${this.dates.startDate} ${this.dates.endDate}`.trim();});
+SchemaListTrips.virtual('tripDatesString').get(function() {
+  return this.tripDates.startDate + '/' + this.tripDates.endDate;
+  //return `${this.tripDates.startDate} ${this.tripDates.endDate}`.trim()
+
+});
 
 SchemaListTrips.methods.serialize = function() {
   return {
@@ -28,14 +26,11 @@ SchemaListTrips.methods.serialize = function() {
     name: this.name,
     location: this.location,
     content: this.content,
-    dates: this.dates,
+    tripDates: this.tripDatesString,
     publishDate: this.publishDate
   };
 };
 
 
-const ListTrips = mongoose.model('Trip', SchemaListTrips)
-
-module.exports = {
-  ListTrips
-}
+const ListTrips = mongoose.model('ListTrips', SchemaListTrips);
+module.exports = { ListTrips };
