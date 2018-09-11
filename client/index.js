@@ -162,7 +162,8 @@ function handleCloseAddPlaceView() {
   $('main').on('click', '.js-trip-addPlace-close', function (e) {
     e.preventDefault();
     $('.popup-overlay-add-place, .popup-content-add-place').removeClass("active");
-    $('.popup-overlay-upd-trip, .popup-content-upd-trip').addClass("active");
+    //$('.popup-overlay-upd-trip, .popup-content-upd-trip').addClass("active");
+    $(".box-parent").removeClass("inactive");
 
   });
 }
@@ -174,17 +175,22 @@ const saveAndRenderMarker = function (place) {
     const lng = response.data.results[0].geometry.location.lng;
 
     const itemPlace = {
-      place: place,
+      name: place,
       lat: lat,
       lng: lng
     }
-    // save to database
-    $.post(`/trip-list/${selectedId}/places`, itemPlace);
-    // $.getJSON(TRIP_LIST_URL, function (items) {
-    //   var item = items.find(item => item.id === selectedId);
 
-    //   item.places.push(itemPlace);
-    //   console.log(item.places);
+    $.ajax({
+      method: "POST",
+      url: `/trip-list/${selectedId}/places`,
+      data: JSON.stringify(itemPlace),
+      success: function () {
+        getAndDisplayTripList();
+      },
+      dataType: "json",
+      contentType: "application/json"
+    })
+
     displayPlaceOnMap(itemPlace);
     $('.popup-overlay-add-place, .popup-content-add-place').removeClass("active");
     $('.popup-overlay-upd-trip, .popup-content-upd-trip').addClass("active");
@@ -196,11 +202,11 @@ function handleSaveNewPlace() {
   $('main').on('click', '#addPlace', function (e) {
     e.preventDefault();
     var place = $('#js-add-place-form').find('input[name="js-trip-place-name"]').val();
-
+ 
     getCoordsOfPlace(place)
       .then(saveAndRenderMarker(place))
       .catch(function (error) {
-        console.log(error);
+         console.log(error);
       });
   });
 }
@@ -371,6 +377,8 @@ function handleSelectTrip() {
     var element = $(e.currentTarget).closest(".js-trip-item");
     selectedId = element.attr("id");
 
+    showPlaces(selectedId);
+
     if (!prevElement) {
       var currentElement = $(e.currentTarget).closest(".js-trip-item");
       location = currentElement.find(".js-trip-item-location").text();
@@ -450,6 +458,15 @@ function convertDateFromMongoDB(mongoFormatDate) {
 }
 
 //////////////////////////////////////////////////////////////
+function showPlaces(selectedId){
+  $.getJSON(TRIP_LIST_URL, function (items) {
+    var item = items.find(item => item.id === selectedId);
+      for(let i=0; i<item.places.length; i++){
+        displayPlaceOnMap(item.places[i]);
+      }
+  });
+}
+/////////////////////////////////////////////////////////////
 window.initMap = initMap;
 
 $(function () {

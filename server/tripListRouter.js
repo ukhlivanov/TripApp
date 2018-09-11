@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const { ListTrips } = require('./model');
 
-
+var serverBase = "//localhost:8080/";
+var TRIP_LIST_URL = serverBase + 'trip-list';
 
 //GET
 router.get('/', (req, res) => {
@@ -27,7 +28,7 @@ router.get('/:id', (req, res) => {
   });
 });
 
-//CREATE
+//CREATE TRIP
 router.post('/', jsonParser, (req, res) => {
 
   const requiredFields = ['name', 'location', 'content', 'tripDates'];
@@ -39,7 +40,6 @@ router.post('/', jsonParser, (req, res) => {
       return res.status(400).send(message);
     }
   }
-  console.log("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOG");
   console.log(req.body);
   ListTrips.create({
     name: req.body.name,
@@ -52,6 +52,39 @@ router.post('/', jsonParser, (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Something went wrong' });
   });
+});
+
+//CREATE TRIP PLACES
+router.post('/:id/places', (req, res) => {
+
+  const requiredFields = ['name', 'lat', 'lng'];
+  for (let i = 0; i < requiredFields.length; i++) {
+    const field = requiredFields[i];
+    if (!(field in req.body)) {
+      const message = `Missing \`${field}\` in request body`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  }
+
+  const itemPlace = {
+    name: req.body.name,
+    lat: req.body.lat,
+    lng: req.body.lng
+  }
+
+  ListTrips.findById(req.params.id)
+  .then(item =>{
+    item.places.push(itemPlace);
+    item.save(function (err) {
+      if (err) return handleError(err)
+      console.log('Success! Place has been added!');
+    });
+  })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'something went horribly wrong' });
+    });
 });
 
 

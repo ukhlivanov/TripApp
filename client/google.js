@@ -50,15 +50,8 @@ export function geocodeAddress(response) {
     },
     zoom: 12
   });
-
-
-  //   var marker = new google.maps.Marker({
-  //     position:  {lat:37.7749, lng: -122.4194},
-  //     title:"Hello World!"
-  // });
-
-
 }
+
 export function getCoordsOfPlace(place) {
   return axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
     params: {
@@ -69,10 +62,11 @@ export function getCoordsOfPlace(place) {
 }
 
 export function displayPlaceOnMap(itemPlace) {
+
   var marker = new google.maps.Marker({
     position: {
-      lat: itemPlace.lat,
-      lng: itemPlace.lng
+      lat: Number(itemPlace.lat),
+      lng: Number(itemPlace.lng)
     },
     map: map,
     icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
