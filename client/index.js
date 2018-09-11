@@ -1,6 +1,8 @@
 import {
   initMap,
-  geocodeAddress
+  geocodeAddress,
+  getCoordsOfPlace,
+  displayPlaceOnMap
 } from './google'
 
 
@@ -165,14 +167,44 @@ function handleCloseAddPlaceView() {
   });
 }
 
-function handleSaveNewPlace(){
+// partial application
+const saveAndRenderMarker = function (place) {
+  return function (response) {
+    const lat = response.data.results[0].geometry.location.lat;
+    const lng = response.data.results[0].geometry.location.lng;
+
+    const itemPlace = {
+      place: place,
+      lat: lat,
+      lng: lng
+    }
+    // save to database
+    $.post(`/trip-list/${selectedId}/places`, itemPlace);
+    // $.getJSON(TRIP_LIST_URL, function (items) {
+    //   var item = items.find(item => item.id === selectedId);
+
+    //   item.places.push(itemPlace);
+    //   console.log(item.places);
+    displayPlaceOnMap(itemPlace);
+    $('.popup-overlay-add-place, .popup-content-add-place').removeClass("active");
+    $('.popup-overlay-upd-trip, .popup-content-upd-trip').addClass("active");
+  };
+}
+window.saveAndRenderMarker = saveAndRenderMarker;
+
+function handleSaveNewPlace() {
   $('main').on('click', '#addPlace', function (e) {
     e.preventDefault();
-    
+    var place = $('#js-add-place-form').find('input[name="js-trip-place-name"]').val();
 
-    
+    getCoordsOfPlace(place)
+      .then(saveAndRenderMarker(place))
+      .catch(function (error) {
+        console.log(error);
+      });
   });
 }
+
 ///////////////////////////////////////////////////////////////
 
 function hadleViewTrip() {
@@ -185,7 +217,7 @@ function hadleViewTrip() {
     var item;
     $.getJSON(TRIP_LIST_URL, function (items) {
       item = items.find(item => item.id === element.attr("id"));
-      
+
       var convertedFullDate = convertDateFromMongoDB(item.tripDates);
       item.tripDates = convertedFullDate;
       updateViewFullTrip(item);
@@ -264,8 +296,8 @@ function getTripFormWithDetails(item) {
 function saveUpdatedTrip(tripId) {
 
   //$("#js-upd-trip-form").submit(function (e) {
-    $("#js-upd-trip-form").on("click", "#updatetrip", function(e) {
-      e.preventDefault();
+  $("#js-upd-trip-form").on("click", "#updatetrip", function (e) {
+    e.preventDefault();
 
     //var element = $(e.currentTarget).closest(".js-trip-item");
     var item = {
@@ -279,45 +311,46 @@ function saveUpdatedTrip(tripId) {
     var mongoFormatDate = item.tripDates;
     item.tripDates = convertDateIntoMongoDB(mongoFormatDate);
 
-    
+
     console.log(TRIP_LIST_URL + "/" + item.id);
 
     console.log("Updating trip item `" + item.id + "`");
 
-    if(selectedId === item.id){
-      runAjax(item)
-      ;}
+    if (selectedId === item.id) {
+      runAjax(item);
+    }
 
   });
 
 }
-function runAjax(item){
+
+function runAjax(item) {
   $.ajax({
-    url: TRIP_LIST_URL + "/" + item.id,
-    method: "PUT",
-    data: JSON.stringify(item),
-    success: function (data) {
+      url: TRIP_LIST_URL + "/" + item.id,
+      method: "PUT",
+      data: JSON.stringify(item),
+      success: function (data) {
+        getAndDisplayTripList();
+      },
+      dataType: "json",
+      contentType: "application/json"
+    })
+    .then(() => {
+      $(".popup-overlay-upd-trip, .popup-content-upd-trip").removeClass("active");
+      $(".box-parent").removeClass("inactive");
+      $('#js-upd-name').val('');
+      $('#js-upd-location').val('');
+      $('#js-upd-textArea').val('');
+      $('#js-upd-dates').val('');
+    })
+    .then(() => {
+      console.log("Updating trip list: " + item);
       getAndDisplayTripList();
-    },
-    dataType: "json",
-    contentType: "application/json"
-  })
-  .then(() => {
-    $(".popup-overlay-upd-trip, .popup-content-upd-trip").removeClass("active");
-    $(".box-parent").removeClass("inactive");
-    $('#js-upd-name').val('');
-    $('#js-upd-location').val('');
-    $('#js-upd-textArea').val('');
-    $('#js-upd-dates').val('');
-  })
-  .then(() => {
-    console.log("Updating trip list: " + item);
-    getAndDisplayTripList();
-    var mongoFormatDate = `${item.tripDates.startDate}/${item.tripDates.endDate}`;
-    item.tripDates = convertDateFromMongoDB(mongoFormatDate);
-    updateViewFullTrip(item);
-    $(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").addClass("active");
-  });
+      var mongoFormatDate = `${item.tripDates.startDate}/${item.tripDates.endDate}`;
+      item.tripDates = convertDateFromMongoDB(mongoFormatDate);
+      updateViewFullTrip(item);
+      $(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").addClass("active");
+    });
 }
 
 function handleCloseEditView() {
@@ -336,7 +369,7 @@ function handleSelectTrip() {
     e.preventDefault();
 
     var element = $(e.currentTarget).closest(".js-trip-item");
-    selectedId =element.attr("id");
+    selectedId = element.attr("id");
 
     if (!prevElement) {
       var currentElement = $(e.currentTarget).closest(".js-trip-item");
@@ -387,26 +420,32 @@ function handleSelectTrip() {
 
 
 ///////////////////////////////////////////////////////////////
-function convertDateIntoMongoDB(mongoFormatDate){
+function convertDateIntoMongoDB(mongoFormatDate) {
   var array = mongoFormatDate.split('-');
   var startDate = new Date(array[0]);
   var endDate = new Date(array[1]);
   var tripDates = {
-    startDate: {type: Date, required: true},
-    endDate: {type: Date, required: true}
+    startDate: {
+      type: Date,
+      required: true
+    },
+    endDate: {
+      type: Date,
+      required: true
+    }
   }
   tripDates.startDate = startDate;
   tripDates.endDate = endDate;
   return tripDates;
 }
 
-function convertDateFromMongoDB(mongoFormatDate){
+function convertDateFromMongoDB(mongoFormatDate) {
   var array = mongoFormatDate.split('/');
   var startDate = new Date(array[0]);
   var endDate = new Date(array[1]);
   var convertedStartDate = `${startDate.getMonth()+1}/${startDate.getDate()}/${startDate.getFullYear()}`
   var convertedEndDate = `${endDate.getMonth()+1}/${endDate.getDate()}/${endDate.getFullYear()}`
-  var convertedFullDate =`${convertedStartDate} - ${convertedEndDate}`;
+  var convertedFullDate = `${convertedStartDate} - ${convertedEndDate}`;
   return convertedFullDate;
 }
 

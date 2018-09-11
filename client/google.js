@@ -1,8 +1,8 @@
-export function initMap() {
-  var lastItem
-  var serverBase = "//localhost:8080/";
-  var TRIP_LIST_URL = serverBase + 'trip-list';
+var serverBase = "//localhost:8080/";
+var TRIP_LIST_URL = serverBase + 'trip-list';
 
+export function initMap() {
+  var lastItem;
   $.getJSON(TRIP_LIST_URL, function (items) {
 
     lastItem = items[0];
@@ -27,6 +27,7 @@ export function initMap() {
 
 }
 
+export var map;
 export function geocodeAddress(response) {
 
   // Log full response
@@ -42,12 +43,40 @@ export function geocodeAddress(response) {
   console.log(lat);
   console.log(lng);
   console.log(formattedAddress);
-  const map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     center: {
       lat: Number(lat),
       lng: Number(lng)
     },
     zoom: 12
   });
+
+
+  //   var marker = new google.maps.Marker({
+  //     position:  {lat:37.7749, lng: -122.4194},
+  //     title:"Hello World!"
+  // });
+
+
+}
+export function getCoordsOfPlace(place) {
+  return axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+    params: {
+      address: place,
+      key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
+    }
+  })
+}
+
+export function displayPlaceOnMap(itemPlace) {
+  var marker = new google.maps.Marker({
+    position: {
+      lat: itemPlace.lat,
+      lng: itemPlace.lng
+    },
+    map: map,
+    icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+  });
+
 
 }

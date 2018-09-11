@@ -11,7 +11,11 @@ const SchemaListTrips =  mongoose.Schema({
   },
   content: {type: String, required: true},
   publishDate: {type: Date, default: Date.now},
-
+  places: [{
+    name: String,
+    lat: String,
+    lng: String
+  }]
 });
 
 SchemaListTrips.virtual('tripDatesString').get(function() {
@@ -27,7 +31,8 @@ SchemaListTrips.methods.serialize = function() {
     location: this.location,
     content: this.content,
     tripDates: this.tripDatesString,
-    publishDate: this.publishDate
+    publishDate: this.publishDate,
+    places: this.places
   };
 };
 
