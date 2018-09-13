@@ -1,0 +1,28 @@
+button{
+    border:none;
+    background-color: transparent;
+}
+.trip-item-view img, .trip-item-add img, 
+.trip-item-delete img, .trip-item-edit img {
+    height: 35px;
+}
+
+
+.trip-controls{
+    margin-top: 7px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.trip-controls button{
+    width: 24%
+}
+
+button:hover {
+    cursor: pointer;
+  }
+
+  img:hover {
+    height: 40px;
+  }
+
+  

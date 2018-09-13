@@ -11,6 +11,9 @@ var TRIP_LIST_URL = serverBase + 'trip-list';
 //GET
 router.get('/', (req, res) => {
   ListTrips.find().then(trips =>{
+    trips.sort(function(a, b) {
+      return b.publishDate - a.publishDate
+    });
     res.json(trips.map(trip => trip.serialize()));
   }).catch(err => {
     console.error(err);

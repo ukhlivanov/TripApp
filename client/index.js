@@ -6,6 +6,7 @@ import {
 } from './google'
 
 
+
 var selectedId;
 var location;
 
@@ -18,19 +19,30 @@ var tripItemTemplate = (
       </div>
 
       <div class="trip-controls">
-  
-        <button class="js-trip-item-delete">
-          <span class="button-label">Delete</span>
+
+
+        <button class="trip-item-view js-trip-item-view">
+          <img src="img/view.png" />
         </button>
 
-        <button class="js-trip-item-view">
-          <span class="button-label">View</span>
+        <button class="trip-item-add js-trip-item-addPlace">
+          <img src="img/add.png" />
+        </button>
+
+        <button class="trip-item-delete js-trip-item-delete">
+            <img src="img/delete.png" />
+        </button>
+
+        <button class="trip-item-edit js-trip-item-edit">
+          <img src="img/edit.png" />
         </button>
 
       <div>
      
     </li>`
 );
+
+
 
 //const { DATABASE_URL, PORT } = require('../config');
 var serverBase = "//localhost:8080/";
@@ -86,7 +98,16 @@ function addTripItem(item) {
   }).then(() => {
     console.log("Adding trip: " + item);
     getAndDisplayTripList();
-  }).then(() => {
+    renderSelectedMap(item.location);
+
+    $.getJSON(TRIP_LIST_URL, function (items) {
+      selectedId = items[0].id;
+      console.log("SELECTED IIIIIIIIIIIIIIIIDDDDDDDDDDD");
+      console.log(selectedId);
+    })
+
+
+    
     $(".popup-overlay-new-trip, .popup-content-new-trip").removeClass("active");
     $(".box-parent").removeClass("inactive");
 
@@ -94,7 +115,13 @@ function addTripItem(item) {
     $('#js-new-location').val('');
     $('#js-new-textArea').val('');
     $('#js-new-dates').val('');
+  }).then(()=>{   
+    $('.popup-overlay-view-addPlaceForm, .popup-content-view-addPlaceForm').addClass("active");
+    $(".box-parent").addClass("inactive");
+    renderAddPlaceForm();
   });
+
+
 }
 
 function handleTripListAdd() {
@@ -114,6 +141,32 @@ function getTripFormDetails(e) {
     content: $(e.currentTarget).find('#js-new-textArea').val(),
     tripDates: $(e.currentTarget).find('#js-new-dates').val()
   }
+}
+
+function renderAddPlaceForm(){
+
+  $('.popup-content-view-addPlaceForm').html(`        
+    <h2>Please, add places you have visited </h2>
+    <div class="addPlaceForm-controls">
+  
+    <button class="js-trip-item-addPlace">
+      <span class="button-label">Add place</span>
+    </button>
+  
+    <button class="js-trip-item-skipAddTrip">
+        <span class="button-label">Skip</span>
+    </button>
+  
+  <div>
+`);
+
+}
+
+function handleSkipAddPlaceForm() {
+  $('main').on('click', '.js-trip-item-skipAddTrip', function (e) {
+    $(".popup-overlay-view-addPlaceForm, .popup-content-view-addPlaceForm").removeClass("active");
+    $(".box-parent").removeClass("inactive");
+  });
 }
 
 /////////////////////////////////////////////////////////
@@ -138,24 +191,28 @@ function handleTripDelete() {
 function handleAddPlace() {
   $('main').on('click', '.js-trip-item-addPlace', function (e) {
     e.preventDefault();
-    $('.popup-overlay-upd-trip, .popup-content-upd-trip').removeClass("active");
+    $('.popup-overlay-view-addPlaceForm, .popup-content-view-addPlaceForm').removeClass("active");
     $('.popup-overlay-add-place, .popup-content-add-place').addClass("active");
     $(".box-parent").addClass("inactive");
-    $('.popup-content-add-place').html(`        
-        <form id="js-add-place-form">
-        <label for="js-add-place-form"><span> <h2>Please add place you have visited in ${location} </h2> </span></label>
-        <input type="text" name="js-trip-place-name" id="js-place-name" placeholder="Twin Peaks, Golden Gate Bridge ...."><br>
-        
-        <button type="submit" id="addPlace">Save place</button>
-        
-        <button class="js-trip-addPlace-close">
-        <span class="button-label">Close</span>
-        </button>
-
-        </form>
-    `);
+    addPlaceForm();
   });
 
+}
+
+function addPlaceForm(){
+  $('.popup-content-add-place').html(`        
+  <form id="js-add-place-form">
+  <label for="js-add-place-form"><span> <h2>Please add place you have visited in ${location} </h2> </span></label>
+  <input type="text" name="js-trip-place-name" id="js-place-name" placeholder="Twin Peaks, Golden Gate Bridge ...."><br>
+  
+  <button type="submit" id="addPlace">Save place</button>
+  
+  <button class="js-trip-addPlace-close">
+  <span class="button-label">Close</span>
+  </button>
+
+  </form>
+`);
 }
 
 function handleCloseAddPlaceView() {
@@ -193,9 +250,43 @@ const saveAndRenderMarker = function (place) {
 
     displayPlaceOnMap(itemPlace);
     $('.popup-overlay-add-place, .popup-content-add-place').removeClass("active");
-    $('.popup-overlay-upd-trip, .popup-content-upd-trip').addClass("active");
+    $('.popup-overlay-view-oneMorePlace, .popup-content-view-oneMorePlace').addClass("active");
+    $('.popup-content-view-oneMorePlace').html(`        
+    <div id="js-add-oneMorePlace">
+
+    <h2>Add one more place?</h2>
+    
+    <button type="submit" id="addOneMorePlace">Yes, add</button>
+    
+    <button class="js-trip-addOneMorePlace-cancel">
+      <span class="button-label">No, enough</span>
+    </button>
+
+    </div>
+    `);
   };
 }
+
+function handleAddOneMorePlace(){
+  $('main').on('click', '#addOneMorePlace', function (e) {
+    e.preventDefault();
+    $(".popup-overlay-view-oneMorePlace, .popup-content-view-oneMorePlace").removeClass("active");
+    $('.popup-overlay-add-place, .popup-content-add-place').addClass("active");
+    $('#js-place-name').val('');
+    //$(".box-parent").removeClass("inactive");
+  });
+  addPlaceForm();
+}
+
+function handleCancelAddOneMorePlace(){
+  $('main').on('click', '.js-trip-addOneMorePlace-cancel', function (e) {
+    e.preventDefault();
+    $(".popup-overlay-view-oneMorePlace, .popup-content-view-oneMorePlace").removeClass("active");
+    $(".box-parent").removeClass("inactive");
+  });
+
+}
+
 window.saveAndRenderMarker = saveAndRenderMarker;
 
 function handleSaveNewPlace() {
@@ -375,7 +466,11 @@ function handleSelectTrip() {
     e.preventDefault();
 
     var element = $(e.currentTarget).closest(".js-trip-item");
+
     selectedId = element.attr("id");
+
+    console.log("SELECTED IIIIIIIIIIIIIIIIDDDDDDDDDDD");
+    console.log(selectedId);
 
     showPlaces(selectedId);
 
@@ -383,20 +478,7 @@ function handleSelectTrip() {
       var currentElement = $(e.currentTarget).closest(".js-trip-item");
       location = currentElement.find(".js-trip-item-location").text();
       currentElement.find(".trip-controls").addClass("active");
-      axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-          params: {
-            address: location,
-            key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
-          }
-        })
-        .then(
-          function (response) {
-            geocodeAddress(response);
-
-          })
-        .catch(function (error) {
-          console.log(error);
-        });
+      renderSelectedMap(location);
       prevElement = currentElement;
 
     } else if (prevElement !== currentElement) {
@@ -405,7 +487,16 @@ function handleSelectTrip() {
       location = currentElement.find(".js-trip-item-location").text();
       currentElement.find(".trip-controls").addClass("active");
 
-      axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+      renderSelectedMap(location);
+      prevElement = currentElement;
+    }
+
+  });
+
+}
+
+function renderSelectedMap(location){
+  axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
           params: {
             address: location,
             key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
@@ -419,13 +510,7 @@ function handleSelectTrip() {
         .catch(function (error) {
           console.log(error);
         });
-      prevElement = currentElement;
-    }
-
-  });
-
 }
-
 
 ///////////////////////////////////////////////////////////////
 function convertDateIntoMongoDB(mongoFormatDate) {
@@ -470,7 +555,6 @@ function showPlaces(selectedId){
 window.initMap = initMap;
 
 $(function () {
-
   getAndDisplayTripList();
   handleTripDelete();
   handleSelectTrip();
@@ -482,4 +566,7 @@ $(function () {
   handleCloseEditView();
   handleCloseAddPlaceView();
   handleSaveNewPlace();
+  handleSkipAddPlaceForm();
+  handleAddOneMorePlace();
+  handleCancelAddOneMorePlace();
 })

@@ -18,6 +18,17 @@
   text-align: center;
 }
 
+.popup-overlay-view-addPlaceForm.active{
+  visibility: visible;
+  text-align: center;
+}
+.popup-overlay-view-oneMorePlace.active{
+  visibility: visible;
+  text-align: center;
+}
+
+
+
 .popup-content-new-trip.active {
   visibility: visible;
 }
@@ -33,6 +44,16 @@
 .popup-content-view-fullTrip.active {
   visibility: visible;
 }
+.popup-content-view-addPlaceForm.active{
+  visibility: visible;
+  text-align: center;
+}
+.popup-content-view-oneMorePlace.active{
+  visibility: visible;
+  text-align: center;
+}
+
+
 
 .trip-controls.active {
   visibility: visible;
@@ -49,7 +70,9 @@
 .popup-content-add-place {
   visibility: hidden;
 }
-
+.popup-content-view-oneMorePlace{
+visibility: hidden;
+}
 .popup-content-view-fullTrip {
   visibility: hidden;
 }
@@ -105,6 +128,29 @@
 }
 
 .popup-overlay-view-fullTrip {
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 40%;
+  border: 3px solid #73AD21;
+  padding: 0px;
+  visibility: hidden;
+  position: absolute;
+  background: #ffffff;
+  border: 3px solid #666666;
+}
+
+.popup-overlay-view-addPlaceForm{
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 40%;
+  border: 3px solid #73AD21;
+  padding: 0px;
+  visibility: hidden;
+  position: absolute;
+  background: #ffffff;
+  border: 3px solid #666666;
+}
+.popup-content-view-oneMorePlace{
   left: 50%;
   transform: translate(-50%, 0);
   width: 40%;

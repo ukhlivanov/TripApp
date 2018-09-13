@@ -9,6 +9,7 @@
   <link rel="stylesheet" type="text/css" href="./index.css">
   <link rel="stylesheet" type="text/css" href="./popup.css">
   <link rel="stylesheet" type="text/css" href="./float-grid.css">
+  <link rel="stylesheet" type="text/css" href="./buttons.css">
   <link href="https://fonts.googleapis.com/css?family=Lato|Courgette" rel="stylesheet">
   <title>My Trip Application</title>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8&callback=initMap">
@@ -73,7 +74,7 @@
             <textarea style="width: 400px; height: 100px;" name="content" form="js-add-trip-form" id="js-new-textArea">Enter content here...</textarea><br>
           </div>
           <br>
-          <button type="submit" id="submittrip">Save trip</button>
+          <button type="submit" id="submittrip">Next</button>
         </form>
       </div>
     </div>
@@ -99,10 +100,6 @@
           <br>
           <button type="submit" id="updatetrip">Update trip</button>
 
-          <button class="js-trip-item-addPlace">
-            <span class="button-label">Add place</span>
-          </button>
-
           <button class="js-trip-upd-close">
             <span class="button-label">Close</span>
           </button>
@@ -123,6 +120,21 @@
 
       </div>
     </div>
+
+    <div class="popup-overlay-view-addPlaceForm">
+      <div class="popup-content-view-addPlaceForm">
+      
+      </div>
+    </div>
+
+    <div class="popup-overlay-view-oneMorePlace">
+      <div class="popup-content-view-oneMorePlace">
+
+      </div>
+    </div>
+    
+
+  
 
   </main>
 

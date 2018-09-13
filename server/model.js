@@ -18,11 +18,17 @@ const SchemaListTrips =  mongoose.Schema({
   }]
 });
 
+
+
 SchemaListTrips.virtual('tripDatesString').get(function() {
   return this.tripDates.startDate + '/' + this.tripDates.endDate;
   //return `${this.tripDates.startDate} ${this.tripDates.endDate}`.trim()
 
 });
+
+// SchemaListTrips.get(function(){
+//   return sort((a, b) => {return b.publishDate - a.publishDate;});
+// })
 
 SchemaListTrips.methods.serialize = function() {
   return {
