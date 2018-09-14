@@ -1,0 +1,5 @@
+     <div class="trip-form-content">
+            <h3>Additional info about trip</h3>
+            <textarea style="width: 400px; height: 100px;" name="js-upd-trip-form-content" form="js-upd-trip-form" id="js-upd-textArea"></textarea><br>
+          </div>
+          <br>

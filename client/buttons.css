@@ -21,8 +21,15 @@ button:hover {
     cursor: pointer;
   }
 
-  img:hover {
+  /*img:hover {
     height: 40px;
-  }
+  }*/
 
-  
+  #js-upd-trip-form img{
+    height: 45px;
+    width: 45px;
+  } 
+
+  #js-upd-dates{
+    margin-bottom: 20px;
+}

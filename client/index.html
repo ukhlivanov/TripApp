@@ -83,25 +83,19 @@
     <div class="popup-overlay-upd-trip">
       <div class="popup-content-upd-trip">
         <form id="js-upd-trip-form">
-          <label for="js-upd-trip-form"><span>
-              <h2>Info about trip</h2>
-            </span></label>
+          <label for="js-upd-trip-form"></label>
           <div>
-            <h3>Title of trip</h3>
             <input type="text" name="js-upd-trip-form-name" id="js-upd-name" placeholder="Trip name"><br>
             <input type="text" name="js-upd-trip-form-location" id="js-upd-location" placeholder="Trip location"><br>
             <input type="text" name="js-upd-trip-form-dates" id="js-upd-dates" placeholder="Trip dates"><br>
           </div>
 
-          <div class="trip-form-content">
-            <h3>Additional info about trip</h3>
-            <textarea style="width: 400px; height: 100px;" name="js-upd-trip-form-content" form="js-upd-trip-form" id="js-upd-textArea"></textarea><br>
-          </div>
-          <br>
-          <button type="submit" id="updatetrip">Update trip</button>
+          <button type="submit" id="updatetrip">
+            <img src="img/ok.png" />
+          </button>
 
           <button class="js-trip-upd-close">
-            <span class="button-label">Close</span>
+            <img src="img/cancel.png" />
           </button>
 
         </form>
@@ -117,7 +111,10 @@
 
     <div class="popup-overlay-view-fullTrip">
       <div class="popup-content-view-fullTrip">
-
+        <form id="js-upd-trip-form">
+          <h3>Additional info about trip</h3>
+          <textarea style="width: 400px; height: 100px;" name="js-upd-trip-form-content" form="js-upd-trip-form" id="js-upd-textArea"></textarea><br>
+        </form>
       </div>
     </div>
 

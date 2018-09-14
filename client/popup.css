@@ -83,7 +83,7 @@ visibility: hidden;
 
 .box-parent.inactive {
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0.4;
   background: lightgreen;
 }
 
@@ -104,16 +104,20 @@ visibility: hidden;
 }
 
 .popup-overlay-upd-trip {
+  padding-top: 10px;
   left: 50%;
   transform: translate(-50%, 0);
-  width: 40%;
-  border: 3px solid #73AD21;
-  padding: 0px;
+  width: 35%;
   visibility: hidden;
   position: absolute;
-  background: #ffffff;
-  border: 3px solid #666666;
+  background: lightblue;
+  border: 1px solid white;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
+  -moz-box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+  -webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
 }
+
 
 .popup-overlay-add-place {
   left: 50%;
@@ -128,15 +132,21 @@ visibility: hidden;
 }
 
 .popup-overlay-view-fullTrip {
+  padding-top: 10px;
   left: 50%;
   transform: translate(-50%, 0);
-  width: 40%;
-  border: 3px solid #73AD21;
-  padding: 0px;
+  width: 25%;
   visibility: hidden;
   position: absolute;
-  background: #ffffff;
-  border: 3px solid #666666;
+  background: lightblue;
+  border: 1px solid white;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
+  -moz-box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+  -webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
+}
+.popup-overlay-view-fullTrip p{
+  margin: 20px;
 }
 
 .popup-overlay-view-addPlaceForm{

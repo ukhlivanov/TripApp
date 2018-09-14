@@ -327,28 +327,37 @@ function hadleViewTrip() {
 function updateViewFullTrip(item) {
   $('.popup-content-view-fullTrip').html(`        
   <div id="full-trip-view">
-  <p><span class="trip-item js-full-trip-name">${item.name}</span></p>
-  <p><span class="trip-item js-full-trip-location">${item.location}</span></p>
-  <p><span class="trip-item js-full-trip-dates"></span>${item.tripDates}</p>
   <p><span class="trip-item js-full-trip-content"></span>${item.content}</p>
   </div>
 
-
   <div class="full-trip-controls">
 
-  <button class="js-trip-item-edit">
+  <button class="js-trip-item-editcontent">
     <span class="button-label">Edit</span>
   </button>
 
   <button class="js-trip-item-close">
       <span class="button-label">Close</span>
   </button>
-
+trip-item-edit js-trip-item-edit
 <div>
 
 `);
 }
 
+function handleContentEdit() {
+  $('main').on('click', '.js-trip-item-editcontent', function (e) {
+    e.preventDefault();
+    
+    $.getJSON(TRIP_LIST_URL, function (items) {
+      var item = items.find(item => item.id === selectedId);
+      getTripFormWithDetails(item);
+    });
+    saveUpdatedTrip(selectedId);
+
+
+  });    
+}
 function handleCloseFullView() {
   $('main').on('click', '.js-trip-item-close', function (e) {
     e.preventDefault();
@@ -362,12 +371,6 @@ function handleCloseFullView() {
 function handleTripEdit() {
   $('main').on('click', '.js-trip-item-edit', function (e) {
     e.preventDefault();
-    $(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").removeClass("active");
-    $(".box-parent").removeClass("inactive");
-
-    var name = $("#full-trip-view").find(".js-full-trip-name").text();
-
-
     $.getJSON(TRIP_LIST_URL, function (items) {
       var item = items.find(item => item.id === selectedId);
       getTripFormWithDetails(item);
@@ -387,6 +390,13 @@ function getTripFormWithDetails(item) {
   $('.popup-overlay-upd-trip, .popup-content-upd-trip').addClass("active");
   $(".box-parent").addClass("inactive");
 }
+
+function getContentFormWithDetails(item) {
+  $('#js-upd-trip-form').find('#js-upd-textArea').val(item.content);
+  $('.popup-overlay-view-fullTrip, .popup-content-view-fullTrip').addClass("active");
+  $(".box-parent").addClass("inactive");
+}
+
 
 
 
@@ -445,8 +455,8 @@ function runAjax(item) {
       getAndDisplayTripList();
       var mongoFormatDate = `${item.tripDates.startDate}/${item.tripDates.endDate}`;
       item.tripDates = convertDateFromMongoDB(mongoFormatDate);
-      updateViewFullTrip(item);
-      $(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").addClass("active");
+      //updateViewFullTrip(item);
+      //$(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").addClass("active");
     });
 }
 
@@ -454,8 +464,8 @@ function handleCloseEditView() {
   $('main').on('click', '.js-trip-upd-close', function (e) {
     e.preventDefault();
     $(".popup-overlay-upd-trip, .popup-content-upd-trip").removeClass("active");
-    $(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").addClass("active");
-    //$(".box-parent").removeClass("inactive");
+    //$(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").addClass("active");
+    $(".box-parent").removeClass("inactive");
   });
 }
 //////////////////////////////////////////////////////////////
@@ -569,4 +579,5 @@ $(function () {
   handleSkipAddPlaceForm();
   handleAddOneMorePlace();
   handleCancelAddOneMorePlace();
+  handleContentEdit();
 })

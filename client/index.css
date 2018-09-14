@@ -108,11 +108,14 @@ body * {
 }
 
 
-
-
 .trip-title:hover {
   cursor: pointer;
   background: lightskyblue;
+}
+
+input[type="text"]
+{
+    font-size:20px;
 }
 
 
