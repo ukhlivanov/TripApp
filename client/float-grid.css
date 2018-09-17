@@ -1,0 +1,292 @@
+/*Responsive design*/
+
+* {
+    box-sizing: border-box;
+  }
+  
+  @media screen and (max-width: 1860px) {
+    .trip-list {
+      margin-left: 40px;
+        width: 90%;
+        padding-left: 3%;
+      }
+      
+      .trip-list > li {
+        margin: 0px 20px 0px 0px;
+        width: 45%;
+      }
+      .navbar {
+        height:300px;
+        background-image: url(img/header.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center; 
+      }
+
+   
+  
+      input, textarea,#js-place-name{
+        position: relative;
+        font-size: 18px;
+        width: 360px;
+      }
+
+  }
+  
+  @media screen and (max-width: 1665px) {
+    .popup-overlay-new-trip,
+    .popup-overlay-view-addPlaceForm,
+    .popup-overlay-upd-trip,
+    .popup-overlay-view-content,
+    .popup-overlay-add-place,
+    .popup-overlay-view-fullTrip,
+    .popup-content-view-oneMorePlace
+    {
+      width: 30%;
+    }
+    input, textarea, #js-place-name{
+      position: relative;
+      font-size: 18px;
+      width: 300px;
+    }
+  }
+  
+  @media screen and (max-width: 1280px) {
+    .trip-list {
+      margin-left: 50px;
+    }
+    .trip-list > li {
+      margin: 0px 20px 0px 0px;
+      width: 80%;
+    }
+  }
+
+  @media screen and (max-width: 1130px) {
+    .popup-overlay-new-trip,
+    .popup-overlay-view-addPlaceForm,
+    .popup-overlay-upd-trip,
+    .popup-overlay-view-content,
+    .popup-overlay-add-place,
+    .popup-overlay-view-fullTrip,
+    .popup-content-view-oneMorePlace {
+      width: 40%;
+    }
+    input, textarea, #js-place-name{
+      position: relative;
+      font-size: 18px;
+      width: 300px;
+    }
+  }
+  
+  @media screen and (max-width: 998px) {
+  
+    .navbar .welcome_message {
+      padding-top: 5%;
+      font-size: 28px;
+     }
+
+     #js-trip-item-add,
+     #addPlace{
+      width: 100px;
+   }
+  }
+  
+  @media screen and (max-width: 830px) {
+
+    h4{
+      font-size: 20px;
+    }
+    .popup-overlay-new-trip,
+    .popup-overlay-view-addPlaceForm,
+    .popup-overlay-upd-trip,
+    .popup-overlay-view-content,
+    .popup-overlay-add-place,
+    .popup-overlay-view-fullTrip,
+    .popup-content-view-oneMorePlace {
+      width: 50%;
+    }
+    input, textarea, #js-place-name{
+      position: relative;
+      font-size: 18px;
+      width: 300px;
+    }
+    .trip-list {
+      margin-left: 30px;
+    }
+    .trip-title p{
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    .trip-list > li {
+      margin: 0px 20px 0px 0px;
+      width: 90%;
+    }
+  }
+  
+  @media screen and (max-width: 769px) {
+   .info, #map{
+     width: 100%;
+   }
+
+   .trip-list {
+    margin-left: 80px;
+  }
+
+  .trip-title p{
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  .trip-list > li {
+    margin: 0px 20px 0px 0px;
+    width: 80%;
+  }
+   
+  .navbar .welcome_message {
+    padding-top: 8%;
+    font-size: 28px;
+   }
+
+   #js-trip-item-add{
+    width: 120px;
+  }
+    
+  
+  }
+
+  @media screen and (max-width: 690px) {
+    h4{
+      font-size: 19px;
+    }
+    .popup-overlay-new-trip,
+    .popup-overlay-view-addPlaceForm,
+    .popup-overlay-upd-trip,
+    .popup-overlay-view-content,
+    .popup-overlay-add-place,
+    .popup-overlay-view-fullTrip,
+    .popup-content-view-oneMorePlace
+    {
+      width: 65%;
+    }
+    input, textarea, #js-place-name{
+      position: relative;
+      font-size: 18px;
+      width: 300px;
+    }
+    
+  }
+
+  @media screen and (max-width: 520px) {
+    .popup-overlay-new-trip,
+    .popup-overlay-view-addPlaceForm,
+    .popup-overlay-upd-trip,
+    .popup-overlay-view-content,
+    .popup-overlay-add-place,
+    .popup-overlay-view-fullTrip,
+    .popup-content-view-oneMorePlace
+    {
+      width: 85%;
+    }
+    input, textarea, #js-place-name{
+      position: relative;
+      font-size: 18px;
+      width: 300px;
+    }
+    
+  }
+  
+  @media screen and (max-width: 500px) {
+
+    h4{
+      font-size: 18px;
+    }
+    #js-trip-item-add,
+    #addPlace{
+     width: 100px;
+  }
+
+    .trip-title p{
+
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    input, textarea, #js-place-name{
+      position: relative;
+      font-size: 14px;
+      width: 250px;
+    }
+    .info, #map{
+      width: 100%;
+    }
+ 
+    .trip-list {
+     margin-left: 10px;
+   }
+ 
+   .trip-title p{
+     font-size: 16px;
+     margin-bottom: 15px;
+   }
+
+   .trip-list > li {
+    margin: 0px 20px 0px 0px;
+    width: 100%;
+  }
+
+  .trip-title{
+    min-width: 155px;
+  }
+
+  .navbar .welcome_message {
+    padding-top: 25%;
+    font-size: 20px;
+   }
+
+   #js-trip-item-add{
+    display: inline-block;
+    transition-duration: 0.3s;
+    transition-property: background;
+    transform: translateZ(0);
+    box-shadow: inset 0 0 0 4px #ececec, 0 0 1px transparent;
+    width: 100px;
+ }
+
+ @media screen and (max-width: 453px) {
+  .info, #map{
+    width: 100%;
+  }
+
+  .trip-list {
+   margin-left: 10px;
+ }
+
+ .trip-title p{
+   font-size: 16px;
+   margin-bottom: 15px;
+ }
+
+ .trip-list > li {
+  margin: 0px 20px 0px 0px;
+  width: 100%;
+}
+
+.trip-title{
+  min-width: 155px;
+}
+
+.navbar .welcome_message {
+  padding-top: 20%;
+  font-size: 23px;
+ }
+
+ #js-trip-item-add{
+  display: inline-block;
+  transition-duration: 0.3s;
+  transition-property: background;
+  transform: translateZ(0);
+  box-shadow: inset 0 0 0 4px #ececec, 0 0 1px transparent;
+  width: 100px;
+  }
+    
+}
+} 

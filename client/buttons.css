@@ -1,35 +1,130 @@
 button{
     border:none;
-    background-color: transparent;
+    background-color: transparent;    
 }
+button:hover {
+    cursor: pointer;
+  }
+
+
+.button {
+    margin: .4em;
+    padding: 1em;
+    cursor: pointer;
+    background: #ececec;
+    text-decoration: none;
+    color: #666;
+    font-size: 18px;
+    width: 100px;
+    
+  }
+
+#submittrip {
+    display: inline-block;
+    position: relative;
+    transition-duration: 0.3s;
+    transition-property: transform;
+    -webkit-tap-highlight-color: transparent;
+    transform: translateZ(0);
+    box-shadow: 0 0 1px transparent;
+  }
+  #submittrip:before {
+    pointer-events: none;
+    position: absolute;
+    z-index: -1;
+    top: calc(50% - 10px);
+    right: 0;
+    content: '';
+    border-style: solid;
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent #ececec;
+    transition-duration: 0.3s;
+    transition-property: right;
+  }
+  #submittrip:hover {
+    transform: translateX(-5px);
+  }
+  #submittrip:hover:before {
+    right: -10px;
+  }
+  /**********************************************************/
+
+#updatetrip,
+#updatecontent,
+#addPlace, 
+#addOneMorePlace,
+.js-trip-upd-close, 
+.js-trip-item-editcontent,
+.js-trip-addPlace-close,
+.js-trip-item-close,
+.js-trip-addOneMorePlace-cancel,
+.js-trip-item-addPlace,
+.js-trip-item-skipAddTrip
+{
+    display: inline-block;
+    transition-duration: 0.3s;
+    transition-property: background;
+    transform: translateZ(0);
+    box-shadow: inset 0 0 0 4px #ececec, 0 0 1px transparent;
+  }
+  #updatetrip:hover,
+  #updatecontent:hover, 
+  #addPlace:hover,
+  #addOneMorePlace:hover,
+  .js-trip-upd-close:hover, 
+  .js-trip-item-editcontent:hover,
+  .js-trip-item-close:hover,
+  .js-trip-addPlace-close:hover,
+  .js-trip-addOneMorePlace-cancel:hover,
+  .js-trip-item-addPlace:hover,
+  .js-trip-item-skipAddTrip:hover
+  {
+    background:#F3BE9A;
+  }
+ /**********************************************************/
+ #js-trip-item-add{
+    display: inline-block;
+    transition-duration: 0.3s;
+    transition-property: background;
+    transform: translateZ(0);
+    box-shadow: inset 0 0 0 4px #ececec, 0 0 1px transparent;
+    /* width: 150px; */
+ }
+
+ #js-trip-item-add:hover{
+    background:#F3BE9A;
+ }
+
+
+/*************************************************************/
 .trip-item-view img, .trip-item-add img, 
 .trip-item-delete img, .trip-item-edit img {
     height: 35px;
 }
 
+.trip-item-view img:hover, .trip-item-add img:hover, 
+.trip-item-delete img:hover, .trip-item-edit img:hover {
+    background-color: #8E6D4A;
+    
+}
 
 .trip-controls{
-    margin-top: 7px;
+    min-width: 255px;
+    margin-top: 2px;
     padding-top: 5px;
-    padding-bottom: 5px;
+    padding-bottom: 15px;
 }
 .trip-controls button{
     width: 24%
 }
 
-button:hover {
-    cursor: pointer;
+  #js-trip-item-add img{
+    height: 100px;
+    width: 100px;
   }
 
-  /*img:hover {
-    height: 40px;
-  }*/
+  #js-trip-item-add img:hover{
+    height: 110px;
+    width: 110px;
+  }
 
-  #js-upd-trip-form img{
-    height: 45px;
-    width: 45px;
-  } 
-
-  #js-upd-dates{
-    margin-bottom: 20px;
-}

@@ -21,19 +21,19 @@ var tripItemTemplate = (
       <div class="trip-controls">
 
 
-        <button class="trip-item-view js-trip-item-view">
+        <button title="View comments" class="trip-item-view js-trip-item-view">
           <img src="img/view.png" />
         </button>
 
-        <button class="trip-item-add js-trip-item-addPlace">
+        <button  title="Add place" class="trip-item-add">
           <img src="img/add.png" />
         </button>
 
-        <button class="trip-item-delete js-trip-item-delete">
+        <button  title="Delete" class="trip-item-delete js-trip-item-delete">
             <img src="img/delete.png" />
         </button>
 
-        <button class="trip-item-edit js-trip-item-edit">
+        <button  title="Edit" class="trip-item-edit js-trip-item-edit">
           <img src="img/edit.png" />
         </button>
 
@@ -146,15 +146,15 @@ function getTripFormDetails(e) {
 function renderAddPlaceForm(){
 
   $('.popup-content-view-addPlaceForm').html(`        
-    <h2>Please, add places you have visited </h2>
+    <h3>Please, add place you have visited </h3>
     <div class="addPlaceForm-controls">
   
-    <button class="js-trip-item-addPlace">
-      <span class="button-label">Add place</span>
+    <button class="button js-trip-item-addPlace">
+      Add
     </button>
   
-    <button class="js-trip-item-skipAddTrip">
-        <span class="button-label">Skip</span>
+    <button class="button js-trip-item-skipAddTrip">
+       Skip
     </button>
   
   <div>
@@ -189,7 +189,7 @@ function handleTripDelete() {
 }
 /////////////////////////////////////////////////////////////
 function handleAddPlace() {
-  $('main').on('click', '.js-trip-item-addPlace', function (e) {
+  $('main').on('click', '.js-trip-item-addPlace, .trip-item-add', function (e) {
     e.preventDefault();
     $('.popup-overlay-view-addPlaceForm, .popup-content-view-addPlaceForm').removeClass("active");
     $('.popup-overlay-add-place, .popup-content-add-place').addClass("active");
@@ -202,13 +202,15 @@ function handleAddPlace() {
 function addPlaceForm(){
   $('.popup-content-add-place').html(`        
   <form id="js-add-place-form">
-  <label for="js-add-place-form"><span> <h2>Please add place you have visited in ${location} </h2> </span></label>
-  <input type="text" name="js-trip-place-name" id="js-place-name" placeholder="Twin Peaks, Golden Gate Bridge ...."><br>
+  <label for="js-add-place-form"><span> <h4>Please add place you have visited in ${location} </h4> </span></label>
+  <input type="text" name="js-trip-place-name" id="js-place-name" placeholder="Golden Gate Bridge ...." required><br>
   
-  <button type="submit" id="addPlace">Save place</button>
+  <button type="submit" class="button" id="addPlace">
+    Add
+  </button>
   
-  <button class="js-trip-addPlace-close">
-  <span class="button-label">Close</span>
+  <button class="button js-trip-addPlace-close">
+    Cancel
   </button>
 
   </form>
@@ -256,10 +258,12 @@ const saveAndRenderMarker = function (place) {
 
     <h2>Add one more place?</h2>
     
-    <button type="submit" id="addOneMorePlace">Yes, add</button>
+    <button type="submit" class= "button" id="addOneMorePlace">
+      Yes
+    </button>
     
-    <button class="js-trip-addOneMorePlace-cancel">
-      <span class="button-label">No, enough</span>
+    <button class="button js-trip-addOneMorePlace-cancel">
+      No
     </button>
 
     </div>
@@ -315,8 +319,8 @@ function hadleViewTrip() {
     $.getJSON(TRIP_LIST_URL, function (items) {
       item = items.find(item => item.id === element.attr("id"));
 
-      var convertedFullDate = convertDateFromMongoDB(item.tripDates);
-      item.tripDates = convertedFullDate;
+      // var convertedFullDate = convertDateFromMongoDB(item.tripDates);
+      // item.tripDates = convertedFullDate;
       updateViewFullTrip(item);
     });
 
@@ -327,19 +331,19 @@ function hadleViewTrip() {
 function updateViewFullTrip(item) {
   $('.popup-content-view-fullTrip').html(`        
   <div id="full-trip-view">
-  <p><span class="trip-item js-full-trip-content"></span>${item.content}</p>
+    <p><span class="trip-item js-full-trip-content"></span>${item.content}</p>
   </div>
 
   <div class="full-trip-controls">
 
-  <button class="js-trip-item-editcontent">
-    <span class="button-label">Edit</span>
+  <button class="button js-trip-item-editcontent">
+    Edit
+  </button>
+  
+  <button class="button js-trip-item-close">
+    Cancel
   </button>
 
-  <button class="js-trip-item-close">
-      <span class="button-label">Close</span>
-  </button>
-trip-item-edit js-trip-item-edit
 <div>
 
 `);
@@ -351,9 +355,10 @@ function handleContentEdit() {
     
     $.getJSON(TRIP_LIST_URL, function (items) {
       var item = items.find(item => item.id === selectedId);
-      getTripFormWithDetails(item);
+      getContentFormWithDetails(item);
+      saveUpdatedContent(item);
     });
-    saveUpdatedTrip(selectedId);
+    
 
 
   });    
@@ -374,7 +379,6 @@ function handleTripEdit() {
     $.getJSON(TRIP_LIST_URL, function (items) {
       var item = items.find(item => item.id === selectedId);
       getTripFormWithDetails(item);
-      //saveUpdatedTrip(item.id);
     });
     saveUpdatedTrip(selectedId);
   });
@@ -392,28 +396,53 @@ function getTripFormWithDetails(item) {
 }
 
 function getContentFormWithDetails(item) {
-  $('#js-upd-trip-form').find('#js-upd-textArea').val(item.content);
-  $('.popup-overlay-view-fullTrip, .popup-content-view-fullTrip').addClass("active");
+  $('#js-upd-content-form').find('#js-upd-textArea').val(item.content);
+  $('.popup-overlay-view-fullTrip, .popup-content-view-fullTrip').removeClass("active");
+
+  $('.popup-overlay-view-content, .popup-content-view-content').addClass("active");
   $(".box-parent").addClass("inactive");
 }
 
 
+function saveUpdatedContent(item){
 
+  $("#js-upd-content-form").on("click", "#updatecontent", function (e) {
+    e.preventDefault();
+      
+    var newItem = {
+      id: item.id,
+      name: item.name,
+      location: item.location,
+      content: $('#js-upd-content-form').find('textarea').val(),
+      tripDates: item.tripdates
+    }
+    console.log(TRIP_LIST_URL + "/" + newItem.id);
+
+    console.log("Updating trip item `" + newItem.id + "`");
+    console.log(newItem);
+
+    if (selectedId === newItem.id) {
+      runAjax(newItem);
+      $(".popup-overlay-view-content, .popup-content-view-content").removeClass("active");
+      $(".box-parent").removeClass("inactive");
+    }
+
+  });
+}
 
 function saveUpdatedTrip(tripId) {
 
-  //$("#js-upd-trip-form").submit(function (e) {
   $("#js-upd-trip-form").on("click", "#updatetrip", function (e) {
     e.preventDefault();
-
-    //var element = $(e.currentTarget).closest(".js-trip-item");
+   
     var item = {
       id: tripId,
       name: $('#js-upd-trip-form').find('input[name="js-upd-trip-form-name"]').val(),
       location: $('#js-upd-trip-form').find('input[name="js-upd-trip-form-location"]').val(),
-      content: $('#js-upd-trip-form').find('textarea').val(),
+      //content: $('#js-upd-content-form').find('textarea').val(),
       tripDates: $('#js-upd-trip-form').find('input[name="js-upd-trip-form-dates"]').val(),
     };
+    console.log(item.content);
 
     var mongoFormatDate = item.tripDates;
     item.tripDates = convertDateIntoMongoDB(mongoFormatDate);
@@ -425,6 +454,7 @@ function saveUpdatedTrip(tripId) {
 
     if (selectedId === item.id) {
       runAjax(item);
+      
     }
 
   });
@@ -455,16 +485,14 @@ function runAjax(item) {
       getAndDisplayTripList();
       var mongoFormatDate = `${item.tripDates.startDate}/${item.tripDates.endDate}`;
       item.tripDates = convertDateFromMongoDB(mongoFormatDate);
-      //updateViewFullTrip(item);
-      //$(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").addClass("active");
     });
 }
 
 function handleCloseEditView() {
   $('main').on('click', '.js-trip-upd-close', function (e) {
     e.preventDefault();
+    $(".popup-overlay-view-content, .popup-content-view-content").removeClass("active");
     $(".popup-overlay-upd-trip, .popup-content-upd-trip").removeClass("active");
-    //$(".popup-overlay-view-fullTrip, .popup-content-view-fullTrip").addClass("active");
     $(".box-parent").removeClass("inactive");
   });
 }

@@ -9,7 +9,7 @@ const SchemaListTrips =  mongoose.Schema({
     startDate: {type: Date, required: true},
     endDate: {type: Date, required: true},
   },
-  content: {type: String, required: true},
+  content: {type: String},
   publishDate: {type: Date, default: Date.now},
   places: [{
     name: String,

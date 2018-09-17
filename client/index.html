@@ -10,7 +10,9 @@
   <link rel="stylesheet" type="text/css" href="./popup.css">
   <link rel="stylesheet" type="text/css" href="./float-grid.css">
   <link rel="stylesheet" type="text/css" href="./buttons.css">
+  <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lato|Courgette" rel="stylesheet">
+
   <title>My Trip Application</title>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8&callback=initMap">
   </script>
@@ -29,26 +31,26 @@
     <div class="box-parent">
 
       <div class="navbar">
-        <div class="logo">
-          <h2>Logo</h2>
-        </div>
-        <div class="welcome_message">
-          <h2>Welcome message</h2>
-        </div>
-        <div class="auth">
-          <h2>Authentication</h2>
-        </div>
+          <div class="welcome_message">
+              <p>Bright world... and simple part of it <br>
+              Keep these simple parts safe and share your memories with friends...</p>
+              <button  title="Add new trip" type="button"  class="button" id="js-trip-item-add">
+                  Add trip
+              </button>
+          </div>
       </div>
 
       <div class="info">
-        <h3>My list of trips</h3>
 
         <ul class="trip-list js-trip-list">
         </ul>
 
-        <div class="add_trip">
-          <button type="button" id="js-trip-item-add">Add trip</button>
-        </div>
+        <!-- <div class="add_trip">
+          <button  title="Add new trip" type="button" id="js-trip-item-add">
+              <img src="img/addtrip.png" />
+          </button>
+        </div> -->
+
       </div>
 
       <div id="map"></div>
@@ -60,21 +62,20 @@
       <div class="popup-content-new-trip">
         <form id="js-add-trip-form">
           <label for="js-add-trip-form"><span>
-              <h2>Info about trip</h2>
             </span></label>
           <div>
             <h3>Title of trip</h3>
-            <input type="text" name="js-add-trip-form-name" id="js-new-name" placeholder="Trip name"><br>
-            <input type="text" name="js-add-trip-form-location" id="js-new-location" placeholder="Trip location"><br>
-            <input type="text" name="js-add-trip-form-dates" id="js-new-dates" placeholder="Trip dates"><br>
+            <input type="text" name="js-add-trip-form-name" id="js-new-name" placeholder="Vacation in Florida" required><br>
+            <input type="text" name="js-add-trip-form-location" id="js-new-location" placeholder="Miami,Florida" required><br>
+            <input type="text" name="js-add-trip-form-dates" id="js-new-dates" placeholder="mm/dd/YYYY-mm/dd/YYYY" required><br>
           </div>
 
           <div class="trip-form-content">
-            <h3>Additional info about trip</h3>
-            <textarea style="width: 400px; height: 100px;" name="content" form="js-add-trip-form" id="js-new-textArea">Enter content here...</textarea><br>
+            <h3>Comment</h3>
+            <textarea  name="content" form="js-add-trip-form" id="js-new-textArea" placeholder="Enter content here..."></textarea><br>
           </div>
           <br>
-          <button type="submit" id="submittrip">Next</button>
+          <button type="submit" class="button" id="submittrip">Next</button>
         </form>
       </div>
     </div>
@@ -90,13 +91,9 @@
             <input type="text" name="js-upd-trip-form-dates" id="js-upd-dates" placeholder="Trip dates"><br>
           </div>
 
-          <button type="submit" id="updatetrip">
-            <img src="img/ok.png" />
-          </button>
+          <button type="submit" class="button" id="updatetrip">Update</button>
 
-          <button class="js-trip-upd-close">
-            <img src="img/cancel.png" />
-          </button>
+          <button class="button js-trip-upd-close">Cancel</button>
 
         </form>
       </div>
@@ -111,10 +108,7 @@
 
     <div class="popup-overlay-view-fullTrip">
       <div class="popup-content-view-fullTrip">
-        <form id="js-upd-trip-form">
-          <h3>Additional info about trip</h3>
-          <textarea style="width: 400px; height: 100px;" name="js-upd-trip-form-content" form="js-upd-trip-form" id="js-upd-textArea"></textarea><br>
-        </form>
+       
       </div>
     </div>
 
@@ -129,6 +123,26 @@
 
       </div>
     </div>
+
+
+    <div class="popup-overlay-view-content">
+      <div class="popup-content-view-content">
+        <form id="js-upd-content-form">
+          <textarea style="width: 100%" name="js-upd-trip-form-content" form="js-upd-content-form" id="js-upd-textArea"></textarea><br>
+
+          <button type="submit" class="button" id="updatecontent">
+            Save
+          </button>
+
+          <button class="button js-trip-upd-close">
+            Cancel
+          </button>
+
+        </form>
+      </div>
+    </div>
+
+    
     
 
   
