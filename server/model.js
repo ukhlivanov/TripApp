@@ -2,15 +2,32 @@
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise;
 
-const SchemaListTrips =  mongoose.Schema({
-  name: {type: String, required: true},
-  location: {type: String, required: true},
-  tripDates: {
-    startDate: {type: Date, required: true},
-    endDate: {type: Date, required: true},
+const SchemaListTrips = mongoose.Schema({
+  name: {
+    type: String,
+    required: true
   },
-  content: {type: String},
-  publishDate: {type: Date, default: Date.now},
+  location: {
+    type: String,
+    required: true
+  },
+  tripDates: {
+    startDate: {
+      type: Date,
+      required: true
+    },
+    endDate: {
+      type: Date,
+      required: true
+    },
+  },
+  content: {
+    type: String
+  },
+  publishDate: {
+    type: Date,
+    default: Date.now
+  },
   places: [{
     name: String,
     lat: String,
@@ -20,7 +37,7 @@ const SchemaListTrips =  mongoose.Schema({
 
 
 
-SchemaListTrips.virtual('tripDatesString').get(function() {
+SchemaListTrips.virtual('tripDatesString').get(function () {
   return this.tripDates.startDate + '/' + this.tripDates.endDate;
   //return `${this.tripDates.startDate} ${this.tripDates.endDate}`.trim()
 
@@ -30,7 +47,7 @@ SchemaListTrips.virtual('tripDatesString').get(function() {
 //   return sort((a, b) => {return b.publishDate - a.publishDate;});
 // })
 
-SchemaListTrips.methods.serialize = function() {
+SchemaListTrips.methods.serialize = function () {
   return {
     id: this._id,
     name: this.name,
@@ -43,5 +60,28 @@ SchemaListTrips.methods.serialize = function() {
 };
 
 
+function createPlaceForTrip(tripId, {
+  name,
+  lat,
+  lng
+}) {
+
+  const itemPlace = {
+    name,
+    lat,
+    lng
+  }
+
+  return ListTrips.findById(tripId)
+    .then(item => {
+      item.places.push(itemPlace);
+      return item.save();
+    })
+}
+
+
 const ListTrips = mongoose.model('ListTrips', SchemaListTrips);
-module.exports = { ListTrips };
+module.exports = {
+  ListTrips,
+  createPlaceForTrip
+};

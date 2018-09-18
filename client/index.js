@@ -551,7 +551,7 @@ function renderSelectedMap(location){
 }
 
 ///////////////////////////////////////////////////////////////
-function convertDateIntoMongoDB(mongoFormatDate) {
+export function convertDateIntoMongoDB(mongoFormatDate) {
   var array = mongoFormatDate.split('-');
   var startDate = new Date(array[0]);
   var endDate = new Date(array[1]);
@@ -570,7 +570,7 @@ function convertDateIntoMongoDB(mongoFormatDate) {
   return tripDates;
 }
 
-function convertDateFromMongoDB(mongoFormatDate) {
+export function convertDateFromMongoDB(mongoFormatDate) {
   var array = mongoFormatDate.split('/');
   var startDate = new Date(array[0]);
   var endDate = new Date(array[1]);

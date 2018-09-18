@@ -71,6 +71,4 @@ export function displayPlaceOnMap(itemPlace) {
     map: map,
     icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
   });
-
-
 }
