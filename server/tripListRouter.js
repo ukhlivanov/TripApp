@@ -51,8 +51,11 @@ router.post('/', jsonParser, (req, res) => {
       return res.status(400).send(message);
     }
   }
+  // :user_id/
+  // const user = User.find(req.params.user_id)
   console.log(req.body);
   ListTrips.create({
+    // user: user
       name: req.body.name,
       location: req.body.location,
       content: req.body.content,
