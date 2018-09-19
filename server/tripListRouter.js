@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
-
+const passport = require('passport');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+
+
 const {
   ListTrips,
   createPlaceForTrip
@@ -11,9 +13,18 @@ const {
 var serverBase = "//localhost:8080/";
 var TRIP_LIST_URL = serverBase + 'trip-list';
 
+const { router: localStrategy, jwtStrategy } = require('../auth');
+passport.use(localStrategy);
+passport.use(jwtStrategy);
+
+
+const jwtAuth = passport.authenticate('jwt', { session: false });
+
 //GET
-router.get('/', (req, res) => {
-  ListTrips.find().then(trips => {
+router.get('/', jwtAuth, (req, res) => {
+
+  console.log(currentUser);
+  ListTrips.find({user: req.user.username}).then(trips => {
     trips.sort(function (a, b) {
       return b.publishDate - a.publishDate
     });
@@ -27,7 +38,7 @@ router.get('/', (req, res) => {
 });
 
 //GET by ID
-router.get('/:id', (req, res) => {
+router.get('/:id',jwtAuth, (req, res) => {
   ListTrips.findById(req.params.id).then(trip => {
     res.json(trip.serialize())
       .catch(err => {
@@ -40,7 +51,7 @@ router.get('/:id', (req, res) => {
 });
 
 //CREATE TRIP
-router.post('/', jsonParser, (req, res) => {
+router.post('/', jwtAuth, (req, res) => {
 
   const requiredFields = ['name', 'location', 'content', 'tripDates'];
   for (let i = 0; i < requiredFields.length; i++) {
@@ -55,7 +66,7 @@ router.post('/', jsonParser, (req, res) => {
   // const user = User.find(req.params.user_id)
   console.log(req.body);
   ListTrips.create({
-    // user: user
+      user: req.user.username,
       name: req.body.name,
       location: req.body.location,
       content: req.body.content,

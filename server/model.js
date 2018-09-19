@@ -3,6 +3,11 @@ const mongoose = require('mongoose')
 mongoose.Promise = global.Promise;
 
 const SchemaListTrips = mongoose.Schema({
+  user: {
+    type: String,
+    required: true
+  },
+
   name: {
     type: String,
     required: true
@@ -43,13 +48,11 @@ SchemaListTrips.virtual('tripDatesString').get(function () {
 
 });
 
-// SchemaListTrips.get(function(){
-//   return sort((a, b) => {return b.publishDate - a.publishDate;});
-// })
 
 SchemaListTrips.methods.serialize = function () {
   return {
     id: this._id,
+    user: this.user,
     name: this.name,
     location: this.location,
     content: this.content,
@@ -60,12 +63,8 @@ SchemaListTrips.methods.serialize = function () {
 };
 
 
-function createPlaceForTrip(tripId, {
-  name,
-  lat,
-  lng
-}) {
-
+function createPlaceForTrip(tripId, {name, lat,lng}) 
+{
   const itemPlace = {
     name,
     lat,

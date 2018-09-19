@@ -102,8 +102,6 @@ function addTripItem(item) {
 
     $.getJSON(TRIP_LIST_URL, function (items) {
       selectedId = items[0].id;
-      console.log("SELECTED IIIIIIIIIIIIIIIIDDDDDDDDDDD");
-      console.log(selectedId);
     })
 
 

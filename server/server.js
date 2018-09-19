@@ -3,11 +3,14 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const passport = require('passport');
 mongoose.Promise = global.Promise;
 
 const { DATABASE_URL, PORT } = require('../config');
 const  tripListRouter  = require("./tripListRouter");
 
+const { router: usersRouter } = require('../users');
+const { router: authRouter, localStrategy, jwtStrategy } = require('../auth');
 
 const app = express();
 
@@ -21,7 +24,11 @@ app.get("/", (req, res) => {
   });
   
 app.use("/trip-list", tripListRouter); 
+passport.use(localStrategy);
+passport.use(jwtStrategy);
 
+app.use('/api/users/', usersRouter);
+app.use('/api/auth/', authRouter);
 
 
 
