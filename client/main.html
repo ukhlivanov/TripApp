@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="./index.css">
+  <link rel="stylesheet" type="text/css" href="./popup.css">
+  <link rel="stylesheet" type="text/css" href="./float-grid.css">
+  <link rel="stylesheet" type="text/css" href="./buttons.css">
+  <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato|Courgette" rel="stylesheet">
+
+  <title>My Trip Application</title>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8&callback=initMap">
+  </script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous">
+  </script>
+  <script src="bundle.js"></script>
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+  <main role="main" aria-live="assertive">
+
+    <div class="box-parent">
+
+      <div class="navbar">
+
+        <div class="welcome_message">
+          <p>Bright world... and simple parts of it <br>
+            Keep these simple parts safe and share your memories with friends...</p>
+          <button title="Add new trip" type="button" class="button" id="js-trip-item-add">
+            Add trip
+          </button>
+          <a href="http://localhost:8080/"><button title="Exit" type="button" class="button" id="js-trip-exit">
+              Exit
+          </button></a>
+        </div>
+
+      </div>
+
+      <div class="info">
+
+        <ul class="trip-list js-trip-list">
+        </ul>
+
+      </div>
+
+      <div id="map"></div>
+
+    </div>
+
+    <div class="popup-overlay-new-trip">
+      <div class="popup-content-new-trip">
+        <form id="js-add-trip-form">
+          <label for="js-add-trip-form"><span>
+            </span></label>
+          <div>
+            <h3>Title of trip</h3>
+            <input type="text" name="js-add-trip-form-name" id="js-new-name" placeholder="Vacation in Florida" required><br>
+            <input type="text" name="js-add-trip-form-location" id="js-new-location" placeholder="Miami,Florida"
+              required><br>
+            <input type="text" name="js-add-trip-form-dates" id="js-new-dates" placeholder="mm/dd/YYYY-mm/dd/YYYY"
+              required><br>
+          </div>
+
+          <div class="trip-form-content">
+            <h3>Comment</h3>
+            <textarea name="content" form="js-add-trip-form" id="js-new-textArea" placeholder="Enter content here..."></textarea><br>
+          </div>
+          <br>
+          <button type="submit" class="button" id="submittrip">Next</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup-overlay-upd-trip">
+      <div class="popup-content-upd-trip">
+        <form id="js-upd-trip-form">
+          <label for="js-upd-trip-form"></label>
+          <div>
+            <input type="text" name="js-upd-trip-form-name" id="js-upd-name" placeholder="Trip name"><br>
+            <input type="text" name="js-upd-trip-form-location" id="js-upd-location" placeholder="Trip location"><br>
+            <input type="text" name="js-upd-trip-form-dates" id="js-upd-dates" placeholder="Trip dates"><br>
+          </div>
+
+          <button type="submit" class="button" id="updatetrip">Update</button>
+
+          <button class="button js-trip-upd-close">Cancel</button>
+
+        </form>
+      </div>
+    </div>
+
+    <div class="popup-overlay-add-place">
+      <div class="popup-content-add-place">
+
+      </div>
+    </div>
+
+    <div class="popup-overlay-view-fullTrip">
+      <div class="popup-content-view-fullTrip">
+
+      </div>
+    </div>
+
+    <div class="popup-overlay-view-addPlaceForm">
+      <div class="popup-content-view-addPlaceForm">
+
+      </div>
+    </div>
+
+    <div class="popup-overlay-view-oneMorePlace">
+      <div class="popup-content-view-oneMorePlace">
+
+      </div>
+    </div>
+
+    <div class="popup-overlay-view-content">
+      <div class="popup-content-view-content">
+        <form id="js-upd-content-form">
+          <textarea style="width: 100%" name="js-upd-trip-form-content" form="js-upd-content-form" id="js-upd-textArea"></textarea><br>
+
+          <button type="submit" class="button" id="updatecontent">
+            Save
+          </button>
+
+          <button class="button js-trip-upd-close">
+            Cancel
+          </button>
+
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+
+</html>
+
+</html>

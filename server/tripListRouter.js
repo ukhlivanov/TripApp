@@ -12,12 +12,18 @@ var serverBase = "//localhost:8080/";
 var TRIP_LIST_URL = serverBase + 'trip-list';
 
 //GET
+function getUserId(req) {
+ 
+  return req.user_id;
+}
 router.get('/', (req, res) => {
-  ListTrips.find().then(trips => {
+
+  ListTrips.find({userId: getUserId(req)}).then(trips => {
     trips.sort(function (a, b) {
       return b.publishDate - a.publishDate
     });
-    res.json(trips.map(trip => trip.serialize()));
+    const tripsJson = trips.map(trip => trip.serialize())
+    res.json(tripsJson);
   }).catch(err => {
     console.error(err);
     res.status(500).json({
@@ -27,8 +33,8 @@ router.get('/', (req, res) => {
 });
 
 //GET by ID
-router.get('/:id', (req, res) => {
-  ListTrips.findById(req.params.id).then(trip => {
+router.get('/:trip_id', (req, res) => {
+  ListTrips.findOne({ id: req.params.id, userId: getUserId(req) }).then(trip => {
     res.json(trip.serialize())
       .catch(err => {
         console.error(err);
@@ -53,6 +59,7 @@ router.post('/', jsonParser, (req, res) => {
   }
   console.log(req.body);
   ListTrips.create({
+      userId: getUserId(req),
       name: req.body.name,
       location: req.body.location,
       content: req.body.content,
@@ -68,6 +75,8 @@ router.post('/', jsonParser, (req, res) => {
 });
 
 //CREATE TRIP PLACES
+//const user_id = getUserId();
+// console.log(user_id);
 router.post('/:id/places', (req, res) => {
 
   const requiredFields = ['name', 'lat', 'lng'];
@@ -80,8 +89,14 @@ router.post('/:id/places', (req, res) => {
     }
   }
 
+
+
   createPlaceForTrip(req.params.id, req.body)
-    .then(res => res.statusCode(201))
+    .then(() => {
+      res.status(201).json({
+        message: 'success'
+      });
+    })
     .catch(err => {
       console.error(err);
       res.status(500).json({

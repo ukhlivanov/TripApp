@@ -82,7 +82,8 @@ button:hover {
     background:#F3BE9A;
   }
  /**********************************************************/
- #js-trip-item-add{
+ #js-trip-item-add, 
+ #js-trip-exit{
     display: inline-block;
     transition-duration: 0.3s;
     transition-property: background;
@@ -91,7 +92,8 @@ button:hover {
     /* width: 150px; */
  }
 
- #js-trip-item-add:hover{
+ #js-trip-item-add:hover,
+ #js-trip-exit:hover {
     background:#F3BE9A;
  }
 

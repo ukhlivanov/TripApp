@@ -5,10 +5,9 @@ import {
   displayPlaceOnMap
 } from './google'
 
-
-
-var selectedId;
+export var selectedId;
 var location;
+var userId;
 
 var tripItemTemplate = (
   `<li class="js-trip-item">
@@ -43,10 +42,25 @@ var tripItemTemplate = (
 );
 
 
-
-//const { DATABASE_URL, PORT } = require('../config');
 var serverBase = "//localhost:8080/";
-var TRIP_LIST_URL = serverBase + 'trip-list';
+var TRIP_LIST_URL = serverBase + getUserId() + '/trip-list';
+
+function getUserId() {
+  const location = window.location;
+  var array = location.search.split('=');
+  $.getJSON(TRIP_LIST_URL, function (items) {
+    if(items.length!==0){
+      renderSelectedMap(items[0].location);
+    } else{
+      $('.popup-overlay-new-trip, .popup-content-new-trip').addClass("active");
+      $(".box-parent").addClass("inactive");
+    }
+
+  })
+  userId = array[1];
+  return array[1];
+}
+console.log("USERID: ", getUserId());
 
 function getAndDisplayTripList() {
   console.log('Retrieving trip list');
@@ -73,8 +87,9 @@ function getAndDisplayTripList() {
     });
 
     $('.js-trip-list').html(itemElements);
-
+    
   });
+  
 }
 
 function renderTripForm() {
@@ -102,8 +117,7 @@ function addTripItem(item) {
 
     $.getJSON(TRIP_LIST_URL, function (items) {
       selectedId = items[0].id;
-      console.log("SELECTED IIIIIIIIIIIIIIIIDDDDDDDDDDD");
-      console.log(selectedId);
+
     })
 
 
@@ -177,6 +191,7 @@ function deletetrip(tripId) {
     method: 'DELETE',
     success: getAndDisplayTripList
   });
+
 }
 
 function handleTripDelete() {
@@ -184,8 +199,14 @@ function handleTripDelete() {
     e.preventDefault();
     deletetrip(
       $(e.currentTarget).closest('.js-trip-item').attr('id'));
+
   });
 
+  $.getJSON(TRIP_LIST_URL, function (items) {
+    if(items.length!==0){
+      renderSelectedMap(items[0].location);
+    }
+  })
 }
 /////////////////////////////////////////////////////////////
 function handleAddPlace() {
@@ -241,7 +262,7 @@ const saveAndRenderMarker = function (place) {
 
     $.ajax({
       method: "POST",
-      url: `/trip-list/${selectedId}/places`,
+      url: TRIP_LIST_URL+`/${selectedId}/places`,
       data: JSON.stringify(itemPlace),
       success: function () {
         getAndDisplayTripList();
@@ -507,9 +528,6 @@ function handleSelectTrip() {
 
     selectedId = element.attr("id");
 
-    console.log("SELECTED IIIIIIIIIIIIIIIIDDDDDDDDDDD");
-    console.log(selectedId);
-
     showPlaces(selectedId);
 
     if (!prevElement) {
@@ -581,7 +599,7 @@ export function convertDateFromMongoDB(mongoFormatDate) {
 }
 
 //////////////////////////////////////////////////////////////
-function showPlaces(selectedId){
+export function showPlaces(selectedId){
   $.getJSON(TRIP_LIST_URL, function (items) {
     var item = items.find(item => item.id === selectedId);
       for(let i=0; i<item.places.length; i++){
@@ -591,6 +609,7 @@ function showPlaces(selectedId){
 }
 /////////////////////////////////////////////////////////////
 window.initMap = initMap;
+
 
 $(function () {
   getAndDisplayTripList();
@@ -608,4 +627,5 @@ $(function () {
   handleAddOneMorePlace();
   handleCancelAddOneMorePlace();
   handleContentEdit();
+  
 })

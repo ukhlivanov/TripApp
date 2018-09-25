@@ -10,23 +10,33 @@ const  tripListRouter  = require("./tripListRouter");
 
 
 const app = express();
+const path = require('path');
 
 app.use(morgan('common'));
 app.use(express.json());
 app.use(express.static("client"));
 app.use(express.static("dist"));
 
-app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/client/index.html");
+const authWithUrl = (req, res, next) => {
+  req.user_id = req.params.user_id;
+  next();
+}
+
+
+
+app.use("/:user_id/trip-list", [authWithUrl,tripListRouter])
+
+app.get("/:user_id", (req, res) => {
+  console.log('sending static file')
+    const indexHtml = path.join(__dirname, '../client/main.html')
+    res.sendFile(indexHtml);
   });
   
-app.use("/trip-list", tripListRouter); 
-
 
 
 
 app.use('*', function (req, res) {
-  res.status(404).json({ message: 'Not Found' });
+  res.status(404).json({ message: 'Not Found!' });
 });
 
 // closeServer needs access to a server object, but that only
