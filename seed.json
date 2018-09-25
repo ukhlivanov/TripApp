@@ -1,0 +1,45 @@
+{
+    "_id" : ObjectId("5ba810bc5ef2b54098a99f2f"),
+    "tripDates" : {
+        "startDate" : ISODate("2018-05-24T07:00:00.000Z"),
+        "endDate" : ISODate("2018-05-27T07:00:00.000Z")
+    },
+    "userId" : "1@ya.com",
+    "name" : "Weekends in San-Francisco",
+    "location" : "San Francisco, California",
+    "content" : "sfdf",
+    "publishDate" : ISODate("2018-09-23T22:16:28.040Z"),
+    "places" : []
+}
+{
+    "_id" : ObjectId("5ba8471b2908dd1ce40ff3e8"),
+    "tripDates" : {
+        "startDate" : ISODate("2018-05-24T07:00:00.000Z"),
+        "endDate" : ISODate("2018-05-27T07:00:00.000Z")
+    },
+    "userId" : "2@ya.com",
+    "name" : "Weekends in San-Francisco",
+    "location" : "San-Francisco, CA",
+    "content" : "ewrw",
+    "publishDate" : ISODate("2018-09-24T02:08:27.332Z"),
+    "places" : [ 
+        {
+            "_id" : ObjectId("5ba847252908dd1ce40ff3e9"),
+            "name" : "Twin Peaks, San Francisco",
+            "lat" : "37.7525098",
+            "lng" : "-122.4475683"
+        }, 
+        {
+            "_id" : ObjectId("5ba847292908dd1ce40ff3ea"),
+            "name" : "Golden Gate Bridge",
+            "lat" : "37.8199286",
+            "lng" : "-122.4782551"
+        }, 
+        {
+            "_id" : ObjectId("5baa64b446abe51d38d6c069"),
+            "name" : "Zoo, San Francisco",
+            "lat" : "37.7333055",
+            "lng" : "-122.5043292"
+        }
+    ]
+}

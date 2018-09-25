@@ -1,7 +1,9 @@
 body {
     background: url(./img/land.jpg);
+    background-repeat: no-repeat;
     background-size: cover;
-    padding-top: 15%;
+    background-position: center;
+    padding-top: 5%;
     padding-bottom: 15%;
   }
   
@@ -50,9 +52,17 @@ body {
   position: absolute;
 }
 
+.text{
+  width: 40%;
+  text-align: left;
+  font-size: 30px;
+  color: white;
+  font-family: 'Noto Serif JP', sans-serif;
+}
+
 .text1{
   text-align: left;
-  font-size: 40px;
+  font-size: 30px;
   font-family: 'Satisfy', cursive !important;
   color: white;
  }
@@ -66,6 +76,10 @@ body {
  .email{
    position: relative;
    top: 250px;
+ }
+ h2{
+   color: white;
+   font-family: 'Noto Serif JP', sans-serif;
  }
  .text-center{
    margin-left: 30px;
