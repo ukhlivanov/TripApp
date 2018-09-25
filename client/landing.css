@@ -71,4 +71,29 @@ body {
    margin-left: 30px;
  }
 
+
+ @media screen and (max-width: 520px) {
+  .text1{
+      text-align: right;
+      font-size: 40px;
+      font-family: 'Satisfy', cursive !important;
+      color: red;
+     }
+    
+     .text2{
+       font-family: 'Satisfy', cursive !important;
+       position: relative;
+      font-size: 30px;
+      text-align: right;
+     }
+     .email{
+       position: relative;
+       top: 250px;
+     }
+     .text-center{
+       margin-left: 30px;
+     }
+    
+}
+
  

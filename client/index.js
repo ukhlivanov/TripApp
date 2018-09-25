@@ -5,10 +5,15 @@ import {
   displayPlaceOnMap
 } from './google'
 
+
+
 export var selectedId;
 var location;
 var userId;
+var serverBase = "//localhost:8080/";
+var TRIP_LIST_URL = serverBase + getUserId() + '/trip-list';
 
+//Template for trip item///////////////////////////////////////////////////////
 var tripItemTemplate = (
   `<li class="js-trip-item">
       <div class="trip-title">
@@ -28,23 +33,23 @@ var tripItemTemplate = (
           <img src="img/add.png" />
         </button>
 
-        <button  title="Delete" class="trip-item-delete js-trip-item-delete">
-            <img src="img/delete.png" />
-        </button>
-
         <button  title="Edit" class="trip-item-edit js-trip-item-edit">
           <img src="img/edit.png" />
+        </button>
+
+        <button  title="Delete" class="trip-item-delete js-trip-item-delete">
+          <img src="img/delete.png" />
         </button>
 
       <div>
      
     </li>`
 );
+//-End Block-//////////////////////////////////////////////////////////////////
 
 
-var serverBase = "//localhost:8080/";
-var TRIP_LIST_URL = serverBase + getUserId() + '/trip-list';
 
+// Get userId from URL////////////////////////////////////////////////////////
 function getUserId() {
   const location = window.location;
   var array = location.search.split('=');
@@ -61,7 +66,9 @@ function getUserId() {
   return array[1];
 }
 console.log("USERID: ", getUserId());
+//-End Block-//////////////////////////////////////////////////////////////////
 
+// Loading Initial/updated list of trips///////////////////////////////////////
 function getAndDisplayTripList() {
   console.log('Retrieving trip list');
   $.getJSON(TRIP_LIST_URL, function (items) {
@@ -89,7 +96,17 @@ function getAndDisplayTripList() {
     $('.js-trip-list').html(itemElements);
     
   });
-  
+}
+//-End Block-//////////////////////////////////////////////////////////////////
+
+//Adding new trip item/////////////////////////////////////////////////////////
+
+function handleCloseNewTripForm() {
+  $('main').on('click', '.canceltrip', function (e) {
+    e.preventDefault();
+    $(".popup-overlay-new-trip, .popup-content-new-trip").removeClass("active");
+    $(".box-parent").removeClass("inactive");
+  });
 }
 
 function renderTripForm() {
@@ -100,7 +117,6 @@ function renderTripForm() {
 }
 
 function addTripItem(item) {
-
   $.ajax({
     method: "POST",
     url: TRIP_LIST_URL,
@@ -119,9 +135,6 @@ function addTripItem(item) {
       selectedId = items[0].id;
 
     })
-
-
-    
     $(".popup-overlay-new-trip, .popup-content-new-trip").removeClass("active");
     $(".box-parent").removeClass("inactive");
 
@@ -134,7 +147,6 @@ function addTripItem(item) {
     $(".box-parent").addClass("inactive");
     renderAddPlaceForm();
   });
-
 
 }
 
@@ -156,9 +168,7 @@ function getTripFormDetails(e) {
     tripDates: $(e.currentTarget).find('#js-new-dates').val()
   }
 }
-
 function renderAddPlaceForm(){
-
   $('.popup-content-view-addPlaceForm').html(`        
     <h3>Please, add place you have visited </h3>
     <div class="addPlaceForm-controls">
@@ -173,17 +183,16 @@ function renderAddPlaceForm(){
   
   <div>
 `);
-
 }
-
 function handleSkipAddPlaceForm() {
   $('main').on('click', '.js-trip-item-skipAddTrip', function (e) {
     $(".popup-overlay-view-addPlaceForm, .popup-content-view-addPlaceForm").removeClass("active");
     $(".box-parent").removeClass("inactive");
   });
 }
+//-End Block-//////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////
+//Delete trip item////////////////////////////////////////////////////////////
 function deletetrip(tripId) {
   console.log('Deleting trip `' + tripId + '`');
   $.ajax({
@@ -208,7 +217,9 @@ function handleTripDelete() {
     }
   })
 }
-/////////////////////////////////////////////////////////////
+//-End Block-//////////////////////////////////////////////////////////////////
+
+//Create(add) place you have been visited ////////////////////////////////////
 function handleAddPlace() {
   $('main').on('click', '.js-trip-item-addPlace, .trip-item-add', function (e) {
     e.preventDefault();
@@ -242,13 +253,10 @@ function handleCloseAddPlaceView() {
   $('main').on('click', '.js-trip-addPlace-close', function (e) {
     e.preventDefault();
     $('.popup-overlay-add-place, .popup-content-add-place').removeClass("active");
-    //$('.popup-overlay-upd-trip, .popup-content-upd-trip').addClass("active");
     $(".box-parent").removeClass("inactive");
 
   });
 }
-
-// partial application
 const saveAndRenderMarker = function (place) {
   return function (response) {
     const lat = response.data.results[0].geometry.location.lat;
@@ -311,9 +319,7 @@ function handleCancelAddOneMorePlace(){
   });
 
 }
-
 window.saveAndRenderMarker = saveAndRenderMarker;
-
 function handleSaveNewPlace() {
   $('main').on('click', '#addPlace', function (e) {
     e.preventDefault();
@@ -326,9 +332,9 @@ function handleSaveNewPlace() {
       });
   });
 }
+//-End Block-//////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////
-
+// View(edit) trip comments //////////////////////////////////////////////////
 function hadleViewTrip() {
   $('main').on('click', '.js-trip-item-view', function (e) {
     e.preventDefault();
@@ -339,14 +345,10 @@ function hadleViewTrip() {
     var item;
     $.getJSON(TRIP_LIST_URL, function (items) {
       item = items.find(item => item.id === element.attr("id"));
-
-      // var convertedFullDate = convertDateFromMongoDB(item.tripDates);
-      // item.tripDates = convertedFullDate;
       updateViewFullTrip(item);
     });
 
   });
-
 }
 
 function updateViewFullTrip(item) {
@@ -354,19 +356,14 @@ function updateViewFullTrip(item) {
   <div id="full-trip-view">
     <p><span class="trip-item js-full-trip-content"></span>${item.content}</p>
   </div>
-
   <div class="full-trip-controls">
-
   <button class="button js-trip-item-editcontent">
     Edit
   </button>
-  
   <button class="button js-trip-item-close">
     Cancel
   </button>
-
 <div>
-
 `);
 }
 
@@ -379,9 +376,6 @@ function handleContentEdit() {
       getContentFormWithDetails(item);
       saveUpdatedContent(item);
     });
-    
-
-
   });    
 }
 function handleCloseFullView() {
@@ -391,9 +385,9 @@ function handleCloseFullView() {
     $(".box-parent").removeClass("inactive");
   });
 }
+//-End Block-//////////////////////////////////////////////////////////////////
 
-
-///////////////////////////////////////////////////////////////
+// Edit trip item /////////////////////////////////////////////////////////////
 function handleTripEdit() {
   $('main').on('click', '.js-trip-item-edit', function (e) {
     e.preventDefault();
@@ -452,34 +446,23 @@ function saveUpdatedContent(item){
 }
 
 function saveUpdatedTrip(tripId) {
-
   $("#js-upd-trip-form").on("click", "#updatetrip", function (e) {
     e.preventDefault();
-   
     var item = {
       id: tripId,
       name: $('#js-upd-trip-form').find('input[name="js-upd-trip-form-name"]').val(),
       location: $('#js-upd-trip-form').find('input[name="js-upd-trip-form-location"]').val(),
-      //content: $('#js-upd-content-form').find('textarea').val(),
       tripDates: $('#js-upd-trip-form').find('input[name="js-upd-trip-form-dates"]').val(),
     };
     console.log(item.content);
-
     var mongoFormatDate = item.tripDates;
     item.tripDates = convertDateIntoMongoDB(mongoFormatDate);
-
-
     console.log(TRIP_LIST_URL + "/" + item.id);
-
     console.log("Updating trip item `" + item.id + "`");
-
     if (selectedId === item.id) {
-      runAjax(item);
-      
+      runAjax(item);  
     }
-
   });
-
 }
 
 function runAjax(item) {
@@ -517,26 +500,22 @@ function handleCloseEditView() {
     $(".box-parent").removeClass("inactive");
   });
 }
-//////////////////////////////////////////////////////////////
+//-End Block-//////////////////////////////////////////////////////////////////
+
+//Handle on selected trip event ///////////////////////////////////////////////
 function handleSelectTrip() {
   var prevElement;
-
   $('main').on('click', '.trip-title', function (e) {
     e.preventDefault();
-
     var element = $(e.currentTarget).closest(".js-trip-item");
-
     selectedId = element.attr("id");
-
     showPlaces(selectedId);
-
     if (!prevElement) {
       var currentElement = $(e.currentTarget).closest(".js-trip-item");
       location = currentElement.find(".js-trip-item-location").text();
       currentElement.find(".trip-controls").addClass("active");
       renderSelectedMap(location);
       prevElement = currentElement;
-
     } else if (prevElement !== currentElement) {
       prevElement.find(".trip-controls").removeClass("active");
       var currentElement = $(e.currentTarget).closest(".js-trip-item");
@@ -546,9 +525,7 @@ function handleSelectTrip() {
       renderSelectedMap(location);
       prevElement = currentElement;
     }
-
   });
-
 }
 
 function renderSelectedMap(location){
@@ -568,7 +545,10 @@ function renderSelectedMap(location){
         });
 }
 
-///////////////////////////////////////////////////////////////
+//-End Block-//////////////////////////////////////////////////////////////////
+
+
+//Functions converting and saving trip dates with MongoDB//////////////////////
 export function convertDateIntoMongoDB(mongoFormatDate) {
   var array = mongoFormatDate.split('-');
   var startDate = new Date(array[0]);
@@ -597,8 +577,9 @@ export function convertDateFromMongoDB(mongoFormatDate) {
   var convertedFullDate = `${convertedStartDate} - ${convertedEndDate}`;
   return convertedFullDate;
 }
+//-End Block-//////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////
+//Function for show up markers(places on Google Maps)//////////////////////////
 export function showPlaces(selectedId){
   $.getJSON(TRIP_LIST_URL, function (items) {
     var item = items.find(item => item.id === selectedId);
@@ -607,9 +588,9 @@ export function showPlaces(selectedId){
       }
   });
 }
-/////////////////////////////////////////////////////////////
-window.initMap = initMap;
+//-End Block-//////////////////////////////////////////////////////////////////
 
+window.initMap = initMap;
 
 $(function () {
   getAndDisplayTripList();
@@ -627,5 +608,5 @@ $(function () {
   handleAddOneMorePlace();
   handleCancelAddOneMorePlace();
   handleContentEdit();
-  
+  handleCloseNewTripForm();
 })

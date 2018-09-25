@@ -1,0 +1,11 @@
+* {
+    box-sizing: border-box;
+  }
+
+@media screen and (max-width: 520px) {
+    #block {
+        font-family: sans-serif;
+        color: red;
+      }
+      
+}
