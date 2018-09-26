@@ -37,15 +37,17 @@ const SchemaListTrips = mongoose.Schema({
     name: String,
     lat: String,
     lng: String
-  }]
+  }],
+  userId: {
+    type: String,
+    required: true
+  }
 });
 
 
 
 SchemaListTrips.virtual('tripDatesString').get(function () {
   return this.tripDates.startDate + '/' + this.tripDates.endDate;
-  //return `${this.tripDates.startDate} ${this.tripDates.endDate}`.trim()
-
 });
 
 
@@ -58,24 +60,30 @@ SchemaListTrips.methods.serialize = function () {
     content: this.content,
     tripDates: this.tripDatesString,
     publishDate: this.publishDate,
-    places: this.places
+    places: this.places,
+    userId: this.userId
   };
 };
 
+function createPlaceForTrip(tripId, {name,lat,lng}) {
 
-function createPlaceForTrip(tripId, {name, lat,lng}) 
-{
   const itemPlace = {
     name,
     lat,
     lng
   }
-
+  
   return ListTrips.findById(tripId)
     .then(item => {
+      console.log(item);
       item.places.push(itemPlace);
       return item.save();
-    })
+    })    .catch(err => {
+      console.error(err);
+      res.status(500).json({
+        error: 'something went horribly wrong'
+      });
+    });
 }
 
 

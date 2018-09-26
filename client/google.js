@@ -1,3 +1,4 @@
+
 var serverBase = "//localhost:8080/";
 var TRIP_LIST_URL = serverBase + 'trip-list';
 

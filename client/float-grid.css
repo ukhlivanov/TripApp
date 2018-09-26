@@ -28,7 +28,7 @@
       input, textarea,#js-place-name{
         position: relative;
         font-size: 18px;
-        width: 360px;
+        width: 90%;
       }
 
   }
@@ -47,7 +47,7 @@
     input, textarea, #js-place-name{
       position: relative;
       font-size: 18px;
-      width: 300px;
+      width: 90%;
     }
   }
   
@@ -74,8 +74,12 @@
     input, textarea, #js-place-name{
       position: relative;
       font-size: 18px;
-      width: 300px;
+      width: 90%
     }
+    .trip-controls img{
+      width: 28px !important;
+      height: 28px !important;
+     }
   }
   
   @media screen and (max-width: 998px) {
@@ -108,7 +112,7 @@
     input, textarea, #js-place-name{
       position: relative;
       font-size: 18px;
-      width: 300px;
+      width: 90%;
     }
     .trip-list {
       margin-left: 30px;
@@ -125,15 +129,20 @@
   
   @media screen and (max-width: 769px) {
    .info, #map{
-     width: 100%;
+     width: 50%;
+   }
+
+   .trip-controls img{
+    width: 22px !important;
+    height: 22px !important;
    }
 
    .trip-list {
-    margin-left: 80px;
+    margin-left: 40px;
   }
 
   .trip-title p{
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 15px;
   }
   .trip-list > li {
@@ -146,9 +155,15 @@
     font-size: 28px;
    }
 
-   #js-trip-item-add{
-    width: 120px;
-  }
+   #js-trip-item-add, #js-trip-exit{
+    font-size: 13px;
+     width: 100px;
+   }
+
+   input[type="text"], textarea
+   {
+       width: 90%;
+     }
     
   
   }
@@ -170,7 +185,14 @@
     input, textarea, #js-place-name{
       position: relative;
       font-size: 18px;
-      width: 300px;
+      width: 100%;
+    }
+    .button{
+      font-size: 12px !important;
+      width: 100px !important;
+    }
+    .popup-overlay-view-fullTrip{
+      font-size: 14px;
     }
     
   }
@@ -189,8 +211,16 @@
     input, textarea, #js-place-name{
       position: relative;
       font-size: 18px;
-      width: 300px;
+      width: 100%;
     }
+    .button{
+      font-size: 12px !important;
+      width: 100px !important;
+    }
+    .popup-overlay-view-fullTrip{
+      font-size: 14px;
+    }
+  
     
   }
   
@@ -202,7 +232,7 @@
     #js-trip-item-add,
     #addPlace{
      width: 100px;
-  }
+    }
 
     .trip-title p{
 
@@ -213,7 +243,7 @@
     input, textarea, #js-place-name{
       position: relative;
       font-size: 14px;
-      width: 250px;
+      width: 100%;
     }
     .info, #map{
       width: 100%;
@@ -242,14 +272,8 @@
     font-size: 20px;
    }
 
-   #js-trip-item-add{
-    display: inline-block;
-    transition-duration: 0.3s;
-    transition-property: background;
-    transform: translateZ(0);
-    box-shadow: inset 0 0 0 4px #ececec, 0 0 1px transparent;
-    width: 100px;
- }
+
+}
 
  @media screen and (max-width: 453px) {
   .info, #map{
@@ -257,7 +281,7 @@
   }
 
   .trip-list {
-   margin-left: 10px;
+   margin-left: 13px;
  }
 
  .trip-title p{
@@ -270,23 +294,121 @@
   width: 100%;
 }
 
-.trip-title{
-  min-width: 155px;
-}
+
 
 .navbar .welcome_message {
   padding-top: 20%;
   font-size: 23px;
  }
 
- #js-trip-item-add{
-  display: inline-block;
-  transition-duration: 0.3s;
-  transition-property: background;
-  transform: translateZ(0);
-  box-shadow: inset 0 0 0 4px #ececec, 0 0 1px transparent;
-  width: 100px;
+
+
+ .popup-overlay-new-trip,
+  .popup-overlay-view-addPlaceForm,
+  .popup-overlay-upd-trip,
+  .popup-overlay-view-content,
+  .popup-overlay-add-place,
+  .popup-overlay-view-fullTrip,
+  .popup-content-view-oneMorePlace
+  {
+    width: 90%;
+    margin: 0%;
+  }
+
+  input[type="text"]
+  {
+      font-size:14px;
+      height: 30px; 
+      padding: 7px 7px 7px 7px;
+      width: 90%;
+    }
+
+  #js-upd-trip-form div{
+    margin-bottom: 10px;
+  }
+
+  .trip-title{
+    margin-left: -5px;
+  }
+  textarea, #js-place-name{
+    font-size: 14px;
+    width: 100%;
+  }
+
+ .trip-title p{
+   font-size: 11px;
+   margin-bottom: 15px;
+ }
+
+.navbar .welcome_message {
+  padding-top: 25%;
+  font-size: 20px;
+ }
+
+h2{
+  font-size: 20px;
+}
+  .button{
+    font-size: 12px !important;
+    width: 100px !important;
+  }
+   
+    
+}
+
+@media screen and (max-width: 400px) {
+
+  .popup-overlay-new-trip,
+  .popup-overlay-view-addPlaceForm,
+  .popup-overlay-upd-trip,
+  .popup-overlay-view-content,
+  .popup-overlay-add-place,
+  .popup-overlay-view-fullTrip,
+  .popup-content-view-oneMorePlace
+  {
+    width: 90%;
+    margin: 0%;
+  }
+
+  .popup-overlay-view-fullTrip{
+    font-size: 14px;
+  }
+
+  input[type="text"]
+  {
+      font-size:14px;
+      height: 30px; 
+      padding: 7px 7px 7px 7px;
+  }
+
+  #js-upd-trip-form div{
+    margin-bottom: 10px;
+  }
+
+  .trip-title{
+    margin-left: -5px;
+  }
+  textarea, #js-place-name{
+    font-size: 14px;
+    width: 90%;
+  }
+
+ .trip-title p{
+   font-size: 11px;
+   margin-bottom: 15px;
+ }
+
+.navbar .welcome_message {
+  padding-top: 25%;
+  font-size: 20px;
+ }
+
+h2{
+  font-size: 20px;
+}
+  .button{
+    font-size: 12px !important;
+    width: 100px !important;
   }
     
 }
-} 

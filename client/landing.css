@@ -1,0 +1,113 @@
+body {
+    background: url(./img/land.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding-top: 5%;
+    padding-bottom: 15%;
+  }
+  
+  #block {
+    font-family: sans-serif;
+    color: white;
+  }
+
+
+  .js-start{
+    margin: .4em;
+    padding: 1em;
+    cursor: pointer;
+    background: #ececec;
+    text-decoration: none;
+    color: #666;
+    font-size: 18px;
+    width: 150px;
+    display: inline-block;
+    transition-duration: 0.3s;
+    transition-property: background;
+    transform: translateZ(0);
+    box-shadow: inset 0 0 0 4px #ececec, 0 0 1px transparent;
+    border-radius: 15px;
+    /* width: 150px; */
+ }
+
+ .js-start:hover{
+    background:#F3BE9A;
+ }
+
+ input[type="text"]
+{
+    font-size:20px;
+    display: inline-block;
+    /* width: 400px; */
+    height: 60px;
+    box-sizing: border-box;
+    outline: none;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    padding: 10px 10px 10px 10px;
+    transition: all 0.1s ease-out;
+}
+.maintext{
+  position: absolute;
+}
+
+.text{
+  width: 40%;
+  text-align: left;
+  font-size: 30px;
+  color: white;
+  font-family: 'Noto Serif JP', sans-serif;
+}
+
+.text1{
+  text-align: left;
+  font-size: 30px;
+  font-family: 'Satisfy', cursive !important;
+  color: white;
+ }
+
+ .text2{
+   font-family: 'Satisfy', cursive !important;
+   position: relative;
+  font-size: 30px;
+  text-align: right;
+ }
+ .email{
+   position: relative;
+   top: 250px;
+ }
+ h2{
+   color: white;
+   font-family: 'Noto Serif JP', sans-serif;
+ }
+ .text-center{
+   margin-left: 30px;
+ }
+
+
+ @media screen and (max-width: 520px) {
+  .text1{
+      text-align: right;
+      font-size: 40px;
+      font-family: 'Satisfy', cursive !important;
+      color: red;
+     }
+    
+     .text2{
+       font-family: 'Satisfy', cursive !important;
+       position: relative;
+      font-size: 30px;
+      text-align: right;
+     }
+     .email{
+       position: relative;
+       top: 250px;
+     }
+     .text-center{
+       margin-left: 30px;
+     }
+    
+}
+
+ 

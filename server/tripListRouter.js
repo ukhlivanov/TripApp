@@ -21,14 +21,18 @@ passport.use(jwtStrategy);
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 //GET
-router.get('/', jwtAuth, (req, res) => {
+function getUserId(req) {
+ 
+  return req.user_id;
+}
+router.get('/', (req, res) => {
 
-  console.log(currentUser);
-  ListTrips.find({user: req.user.username}).then(trips => {
+  ListTrips.find({userId: getUserId(req)}).then(trips => {
     trips.sort(function (a, b) {
       return b.publishDate - a.publishDate
     });
-    res.json(trips.map(trip => trip.serialize()));
+    const tripsJson = trips.map(trip => trip.serialize())
+    res.json(tripsJson);
   }).catch(err => {
     console.error(err);
     res.status(500).json({
@@ -38,8 +42,8 @@ router.get('/', jwtAuth, (req, res) => {
 });
 
 //GET by ID
-router.get('/:id',jwtAuth, (req, res) => {
-  ListTrips.findById(req.params.id).then(trip => {
+router.get('/:trip_id', (req, res) => {
+  ListTrips.findOne({ id: req.params.id, userId: getUserId(req) }).then(trip => {
     res.json(trip.serialize())
       .catch(err => {
         console.error(err);
@@ -66,7 +70,7 @@ router.post('/', jwtAuth, (req, res) => {
   // const user = User.find(req.params.user_id)
   console.log(req.body);
   ListTrips.create({
-      user: req.user.username,
+      userId: getUserId(req),
       name: req.body.name,
       location: req.body.location,
       content: req.body.content,
@@ -82,6 +86,8 @@ router.post('/', jwtAuth, (req, res) => {
 });
 
 //CREATE TRIP PLACES
+//const user_id = getUserId();
+// console.log(user_id);
 router.post('/:id/places', (req, res) => {
 
   const requiredFields = ['name', 'lat', 'lng'];
@@ -94,8 +100,14 @@ router.post('/:id/places', (req, res) => {
     }
   }
 
+
+
   createPlaceForTrip(req.params.id, req.body)
-    .then(res => res.statusCode(201))
+    .then(() => {
+      res.status(201).json({
+        message: 'success'
+      });
+    })
     .catch(err => {
       console.error(err);
       res.status(500).json({
