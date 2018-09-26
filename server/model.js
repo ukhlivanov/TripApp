@@ -3,11 +3,6 @@ const mongoose = require('mongoose')
 mongoose.Promise = global.Promise;
 
 const SchemaListTrips = mongoose.Schema({
-  user: {
-    type: String,
-    required: true
-  },
-
   name: {
     type: String,
     required: true
@@ -54,7 +49,6 @@ SchemaListTrips.virtual('tripDatesString').get(function () {
 SchemaListTrips.methods.serialize = function () {
   return {
     id: this._id,
-    user: this.user,
     name: this.name,
     location: this.location,
     content: this.content,

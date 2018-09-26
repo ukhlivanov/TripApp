@@ -3,14 +3,11 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const passport = require('passport');
 mongoose.Promise = global.Promise;
 
 const { DATABASE_URL, PORT } = require('../config');
 const  tripListRouter  = require("./tripListRouter");
 
-const { router: usersRouter } = require('../users');
-const { router: authRouter, localStrategy, jwtStrategy } = require('../auth');
 
 const app = express();
 const path = require('path');
