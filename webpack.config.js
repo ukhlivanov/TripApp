@@ -8,8 +8,7 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, './dist'),
-    publicPath: "/assets/"
+    path: path.resolve(__dirname, 'dist')
   },
   devtool: 'inline-source-map',
   module: {
