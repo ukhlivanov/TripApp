@@ -1,2 +1,9 @@
 language: node_js
 node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: o/F4yKbh6/urDIDAjSV7sV/DCzRnBsGct5leHR/6/ZN7nM8wZ2Ag+nJACwsurjzV1cj6AUXQczSlDFieK8alf036RgoNPKQwPRkx2h+lX31u7c2DQfiWicviZZ6Du/DUwO17ScyGIvM5yyjtLpLANbGiSyOi92Y6ylbRxuCdrTc262RDnq0RJ/Xd/T0WylNRRHqW3XeV8rl6IgAWLv0BqfY9wSdxq5I5AMJ/aGZphGOlax1XNjQiHv0lGFGHxA3OyXGpUmZjHLfq/YjQlvnj0ZXcJJjzloMq+HQ4yCp8C0xyUmNOzVyI25OhUvl0RlRKpnvI99Hs4jFkJETwRLmxfUTfLKmZsa5BiKQW5UQK+rsTV9uTw+6B+OMVFXC+bFzPUF7l4BB84oWeTxNnzeYBRS8W0pKvT981I405Qxf+Z07AcDtobZu7Uh6sPKY4sACrm1Pq/ji5Vt5TijKf2tCq34pJFUPVSNWT94hm9OdtZq4nJ9iM26RCpAQXH5h+LEtFNZCymqST4pPWaTUWtp77K4fpwZ2epo3eRQL5KQ6uWK7mwSKzEYXpMTSkrUYOccO1/z8eTLlhSICEgCB3+aKm20rC3maPLk7hezPyjnYjIm781Rg4IbhqNF+VV0Of32lw79818JoJlwctm8Dy9Xd7pjeFdLv1xLElXdkIUP0QXHo=
+  app: mighty-wildwood-62473
+  on:
+    repo: ukhlivanov/TripApp
