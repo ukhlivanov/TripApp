@@ -15,7 +15,7 @@ const path = require('path');
 app.use(morgan('common'));
 app.use(express.json());
 app.use(express.static("client"));
-app.use(express.static("dist"));
+app.use(express.static("./"));
 
 const authWithUrl = (req, res, next) => {
   req.user_id = req.params.user_id;
