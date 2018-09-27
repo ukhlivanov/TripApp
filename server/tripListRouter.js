@@ -8,8 +8,8 @@ const {
   createPlaceForTrip
 } = require('./model');
 
-var serverBase = "//localhost:8080/";
-var TRIP_LIST_URL = serverBase + 'trip-list';
+//var serverBase = "//localhost:8080/";
+//var TRIP_LIST_URL = serverBase + 'trip-list';
 
 //GET
 function getUserId(req) {

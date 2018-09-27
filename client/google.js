@@ -1,5 +1,6 @@
 
-var serverBase = "//localhost:8080/";
+//var serverBase = "//localhost:8080/";
+const { serverBase } = require('../config');
 var TRIP_LIST_URL = serverBase + 'trip-list';
 
 export function initMap() {
