@@ -10,7 +10,7 @@ import {
 export var selectedId;
 var location;
 var userId;
-//var serverBase = "//localhost:8080/";
+
 const { serverBase } = require('../config');
 var TRIP_LIST_URL = serverBase + getUserId() + '/trip-list';
 
