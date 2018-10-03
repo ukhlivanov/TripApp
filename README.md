@@ -27,7 +27,7 @@ Add one more place or skip it:
 
 Main screen:
 
-![result](client/img/initial_screen.JPG)
+![result](client/img/mainScreen.JPG)
 
 ## Built With
 
