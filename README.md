@@ -27,7 +27,7 @@ Add one more place or skip it:
 
 Main screen:
 
-![result](client/img/addNewPlace.JPG)
+![result](client/img/initial_screen.JPG)
 
 ## Built With
 
