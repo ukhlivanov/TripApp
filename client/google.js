@@ -14,7 +14,7 @@ export function initMap() {
     axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
         params: {
           address: lastItem[0].location,
-          key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
+          key: 'AIzaSyBpvjt5zBq23Wu6eZHvVuAHEjxd1GgDbMg'
         }
       })
       .then(
@@ -58,7 +58,7 @@ export function getCoordsOfPlace(place) {
   return axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
     params: {
       address: place,
-      key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
+      key: 'AIzaSyBpvjt5zBq23Wu6eZHvVuAHEjxd1GgDbMg'
     }
   })
 }

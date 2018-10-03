@@ -235,7 +235,7 @@ function addPlaceForm(){
   $('.popup-content-add-place').html(`        
   <form id="js-add-place-form">
   <label for="js-add-place-form"><span> <h4>Please add place you have visited in ${location} </h4> </span></label>
-  <input type="text" name="js-trip-place-name" id="js-place-name" placeholder="Golden Gate Bridge ...." required><br>
+  <input type="text" name="js-trip-place-name" id="js-place-name" placeholder="Golden Gate Bridge, San Francisco ...." required><br>
   
   <button type="submit" class="button" id="addPlace">
     Add
@@ -532,7 +532,7 @@ function renderSelectedMap(location){
   axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
           params: {
             address: location,
-            key: 'AIzaSyDqKYCI1XhXLez68nZki75U4Nizx0Au6v8'
+            key: 'AIzaSyBpvjt5zBq23Wu6eZHvVuAHEjxd1GgDbMg'
           }
         })
         .then(
